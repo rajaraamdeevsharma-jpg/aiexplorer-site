@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate of Completion — AI Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c9a84c;
+  --gold2:#f0d080;
+  --gold3:#8b6914;
+  --ink:#1a1208;
+  --bg:#faf7f0;
+  --accent:#0a3d62;
+  --light:#fff9ee;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:#e8e0d0;
+  font-family:'Lato',sans-serif;
+  min-height:100vh;
+  padding:20px;
+}
+
+/* ── CONTROLS ── */
+.controls{
+  background:#1a1208;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
+  display:flex;flex-direction:column;gap:14px;
+}
+.controls h2{
+  font-family:'Cinzel',serif;
+  font-size:16px;font-weight:600;
+  color:var(--gold);letter-spacing:.08em;
+  margin-bottom:4px;
+}
+.controls p{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:8px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.field input,.field select{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;padding:10px 12px;
+  font-family:'Lato',sans-serif;font-size:13px;
+  color:#fff;outline:none;
+  transition:border-color .2s;
+}
+.field input:focus,.field select:focus{border-color:var(--gold)}
+.field input::placeholder{color:rgba(255,255,255,.25)}
+.field select option{background:#1a1208;color:#fff}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{
+  font-family:'Lato',sans-serif;font-size:13px;font-weight:700;
+  padding:11px 22px;border-radius:10px;border:none;cursor:pointer;
+  display:flex;align-items:center;gap:7px;transition:all .2s;
+  letter-spacing:.02em;
+}
+.btn-primary{background:var(--gold);color:var(--ink)}
+.btn-primary:hover{background:var(--gold2)}
+.btn-secondary{background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7)}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── CERTIFICATE WRAPPER ── */
+.cert-page{
+  display:flex;justify-content:center;align-items:flex-start;
+}
+
+/* ── CERTIFICATE ── */
+.certificate{
+  background:var(--light);
+  width:100%;max-width:740px;
+  min-height:520px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 20px 80px rgba(0,0,0,.4);
+  padding:48px 52px;
+}
+
+/* OUTER BORDER */
+.cert-outer-border{
+  position:absolute;inset:12px;
+  border:2px solid var(--gold);
+  pointer-events:none;z-index:10;
+}
+.cert-inner-border{
+  position:absolute;inset:18px;
+  border:1px solid rgba(201,168,76,.35);
+  pointer-events:none;z-index:10;
+}
+
+/* CORNER ORNAMENTS */
+.corner{
+  position:absolute;width:60px;height:60px;
+  z-index:11;
+}
+.corner svg{width:100%;height:100%}
+.c-tl{top:8px;left:8px}
+.c-tr{top:8px;right:8px;transform:scaleX(-1)}
+.c-bl{bottom:8px;left:8px;transform:scaleY(-1)}
+.c-br{bottom:8px;right:8px;transform:scale(-1)}
+
+/* WATERMARK */
+.watermark{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-family:'Cinzel',serif;
+  font-size:100px;font-weight:700;
+  color:rgba(201,168,76,.04);
+  white-space:nowrap;letter-spacing:10px;
+  pointer-events:none;z-index:1;
+  user-select:none;
+}
+
+/* BACKGROUND RADIAL */
+.cert-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.06),transparent 60%),
+    radial-gradient(ellipse at 50% 100%,rgba(10,61,98,.04),transparent 60%);
+  pointer-events:none;
+}
+
+/* CONTENT */
+.cert-content{
+  position:relative;z-index:5;
+  display:flex;flex-direction:column;
+  align-items:center;text-align:center;
+  gap:0;
+}
+
+.cert-logo-row{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:18px;
+}
+.cert-logo-icon{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+}
+.cert-logo-text{
+  font-family:'Cinzel',serif;
+  font-size:16px;font-weight:700;
+  color:var(--gold3);letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.cert-divider{
+  width:120px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:10px auto;
+}
+.cert-divider-wide{
+  width:200px;
+}
+
+.cert-subtitle{
+  font-family:'Cinzel',serif;
+  font-size:10px;font-weight:400;
+  letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold3);margin-bottom:14px;
+}
+
+.cert-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(24px,5vw,34px);
+  font-weight:700;
+  color:var(--accent);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  line-height:1.2;
+  margin-bottom:6px;
+}
+
+.cert-presented{
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;font-weight:300;font-style:italic;
+  color:#6b5a3e;letter-spacing:.05em;
+  margin-bottom:8px;
+}
+
+.cert-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,7vw,52px);
+  font-weight:600;font-style:italic;
+  color:var(--ink);
+  letter-spacing:.02em;
+  line-height:1;
+  margin-bottom:4px;
+  min-height:60px;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.cert-name-underline{
+  width:280px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:2px auto 14px;
+}
+
+.cert-body{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-weight:300;
+  color:#4a3f2e;line-height:1.7;
+  max-width:480px;margin:0 auto;
+  margin-bottom:10px;
+}
+.cert-body strong{
+  font-weight:600;color:var(--ink);
+}
+
+.cert-module{
+  font-family:'Cinzel',serif;
+  font-size:13px;font-weight:600;
+  color:var(--accent);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:16px;
+  padding:8px 24px;
+  border-top:1px solid rgba(201,168,76,.3);
+  border-bottom:1px solid rgba(201,168,76,.3);
+}
+
+/* SKILLS ROW */
+.cert-skills{
+  display:flex;flex-wrap:wrap;gap:7px;
+  justify-content:center;margin-bottom:18px;
+}
+.cert-skill{
+  font-family:'Lato',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;
+  padding:4px 12px;border-radius:100px;
+  background:rgba(10,61,98,.07);
+  border:1px solid rgba(10,61,98,.15);
+  color:var(--accent);
+}
+
+/* SIGNATURES */
+.cert-signatures{
+  display:grid;grid-template-columns:1fr auto 1fr;
+  gap:20px;align-items:flex-end;
+  width:100%;margin-top:6px;
+}
+.sig-block{display:flex;flex-direction:column;align-items:center}
+.sig-line{
+  width:140px;height:1px;
+  background:var(--gold);margin-bottom:5px;
+}
+.sig-name{
+  font-family:'Cinzel',serif;
+  font-size:10px;font-weight:600;
+  color:var(--ink);letter-spacing:.06em;
+}
+.sig-role{
+  font-size:9px;font-weight:400;
+  color:#8b7355;letter-spacing:.04em;
+  text-transform:uppercase;margin-top:2px;
+}
+.sig-sign{
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;font-style:italic;
+  color:var(--gold3);margin-bottom:2px;
+  line-height:1;
+}
+
+.cert-seal{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold3));
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+  border:3px solid var(--gold2);
+  box-shadow:0 0 0 1px var(--gold3),0 4px 16px rgba(201,168,76,.3);
+}
+.seal-text{
+  font-family:'Cinzel',serif;font-size:7px;font-weight:700;
+  color:var(--ink);letter-spacing:.1em;text-transform:uppercase;
+  text-align:center;line-height:1.3;
+}
+
+/* BOTTOM ROW */
+.cert-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;margin-top:12px;padding-top:10px;
+  border-top:1px solid rgba(201,168,76,.2);
+}
+.cert-date-id{
+  display:flex;flex-direction:column;gap:2px;
+  text-align:left;
+}
+.cert-date-id span{
+  font-family:'Lato',sans-serif;
+  font-size:9px;color:#8b7355;letter-spacing:.05em;text-transform:uppercase;
+}
+.cert-date-id strong{
+  font-family:'Lato',sans-serif;
+  font-size:11px;color:var(--ink);font-weight:700;letter-spacing:.02em;
+}
+.cert-grade-badge{
+  font-family:'Cinzel',serif;font-size:10px;font-weight:600;
+  padding:5px 16px;border-radius:100px;
+  border:1px solid var(--gold);color:var(--gold3);
+  letter-spacing:.06em;text-transform:uppercase;
+}
+
+/* PRINT STYLES */
+@media print{
+  body{background:white;padding:0}
+  .controls,.no-print{display:none!important}
+  .certificate{box-shadow:none;max-width:100%;width:100%}
+  @page{margin:0;size:A4 landscape}
+}
+
+@media(max-width:600px){
+  .field-row{grid-template-columns:1fr}
+  .certificate{padding:32px 28px}
+  .cert-signatures{grid-template-columns:1fr;gap:14px}
+  .cert-signatures .sig-block:nth-child(2){order:-1}
+}
+</style>
+</head>
+<body>
+
+<!-- CONTROLS -->
+<div class="controls no-print">
+  <div>
+    <h2>🏆 Certificate Generator</h2>
+    <p>Fill in the details below — the certificate updates live. Then print or save as PDF.</p>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Student Name *</label>
+      <input type="text" id="inp-name" placeholder="e.g. Aarav Sharma" oninput="update()" value="Aarav Sharma">
+    </div>
+    <div class="field">
+      <label>Program Track *</label>
+      <select id="inp-track" onchange="update()">
+        <option value="AI Explorer — Primary Track (K–5)">🌱 AI Explorer Primary (K–5)</option>
+        <option value="AI Builder — Middle Track (6–8)" selected>⚡ AI Builder Middle (6–8)</option>
+        <option value="AI Innovator — High School Track (9–12)">🚀 AI Innovator High School (9–12)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Completion Date</label>
+      <input type="date" id="inp-date" oninput="update()">
+    </div>
+    <div class="field">
+      <label>Certificate ID</label>
+      <input type="text" id="inp-id" placeholder="AIE-2025-001" oninput="update()" value="AIE-2025-001">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Educator / Director Name</label>
+      <input type="text" id="inp-educator" placeholder="Raja Ram Dev Sharma" oninput="update()" value="Raja Ram Dev Sharma">
+    </div>
+    <div class="field">
+      <label>School / Institution</label>
+      <input type="text" id="inp-school" placeholder="School Name" oninput="update()" value="AI Explorer Hisar">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Grade / Distinction</label>
+    <select id="inp-grade" onchange="update()">
+      <option value="With Distinction">🥇 With Distinction</option>
+      <option value="With Merit" selected>🥈 With Merit</option>
+      <option value="With Excellence">⭐ With Excellence</option>
+      <option value="With Honours">🏅 With Honours</option>
+    </select>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="window.print()">🖨️ Print Certificate</button>
+    <button class="btn btn-secondary" onclick="generateNewId()">🔄 New Certificate ID</button>
+    <button class="btn btn-secondary" onclick="clearAll()">🗑️ Reset</button>
+  </div>
+</div>
+
+<!-- CERTIFICATE -->
+<div class="cert-page">
+<div class="certificate" id="certificate">
+
+  <!-- BORDERS -->
+  <div class="cert-outer-border"></div>
+  <div class="cert-inner-border"></div>
+
+  <!-- CORNER ORNAMENTS -->
+  <div class="corner c-tl">
+    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4 L4 28 M4 4 L28 4" stroke="#c9a84c" stroke-width="1.5"/>
+      <path d="M4 4 L24 24" stroke="#c9a84c" stroke-width=".5" opacity=".4"/>
+      <circle cx="4" cy="4" r="3" fill="#c9a84c"/>
+      <path d="M14 4 L14 14 M4 14 L14 14" stroke="#c9a84c" stroke-width=".8" opacity=".5"/>
+      <path d="M22 4 L4 22" stroke="#c9a84c" stroke-width=".4" opacity=".3"/>
+      <circle cx="28" cy="4" r="1.5" fill="#c9a84c" opacity=".5"/>
+      <circle cx="4" cy="28" r="1.5" fill="#c9a84c" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="corner c-tr">
+    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4 L4 28 M4 4 L28 4" stroke="#c9a84c" stroke-width="1.5"/>
+      <path d="M4 4 L24 24" stroke="#c9a84c" stroke-width=".5" opacity=".4"/>
+      <circle cx="4" cy="4" r="3" fill="#c9a84c"/>
+      <path d="M14 4 L14 14 M4 14 L14 14" stroke="#c9a84c" stroke-width=".8" opacity=".5"/>
+      <circle cx="28" cy="4" r="1.5" fill="#c9a84c" opacity=".5"/>
+      <circle cx="4" cy="28" r="1.5" fill="#c9a84c" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="corner c-bl">
+    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4 L4 28 M4 4 L28 4" stroke="#c9a84c" stroke-width="1.5"/>
+      <path d="M4 4 L24 24" stroke="#c9a84c" stroke-width=".5" opacity=".4"/>
+      <circle cx="4" cy="4" r="3" fill="#c9a84c"/>
+      <path d="M14 4 L14 14 M4 14 L14 14" stroke="#c9a84c" stroke-width=".8" opacity=".5"/>
+      <circle cx="28" cy="4" r="1.5" fill="#c9a84c" opacity=".5"/>
+      <circle cx="4" cy="28" r="1.5" fill="#c9a84c" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="corner c-br">
+    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4 L4 28 M4 4 L28 4" stroke="#c9a84c" stroke-width="1.5"/>
+      <path d="M4 4 L24 24" stroke="#c9a84c" stroke-width=".5" opacity=".4"/>
+      <circle cx="4" cy="4" r="3" fill="#c9a84c"/>
+      <path d="M14 4 L14 14 M4 14 L14 14" stroke="#c9a84c" stroke-width=".8" opacity=".5"/>
+      <circle cx="28" cy="4" r="1.5" fill="#c9a84c" opacity=".5"/>
+      <circle cx="4" cy="28" r="1.5" fill="#c9a84c" opacity=".5"/>
+    </svg>
+  </div>
+
+  <!-- WATERMARK -->
+  <div class="watermark">AI</div>
+
+  <!-- BG -->
+  <div class="cert-bg"></div>
+
+  <!-- CONTENT -->
+  <div class="cert-content">
+
+    <!-- LOGO -->
+    <div class="cert-logo-row">
+      <div class="cert-logo-icon">🤖</div>
+      <div class="cert-logo-text">AI Explorer</div>
+    </div>
+
+    <div class="cert-subtitle">K–12 Artificial Intelligence Education Program</div>
+    <div class="cert-divider cert-divider-wide"></div>
+
+    <div style="height:10px"></div>
+
+    <div class="cert-title">Certificate of Completion</div>
+
+    <div style="height:10px"></div>
+
+    <div class="cert-presented">This certificate is proudly presented to</div>
+
+    <div class="cert-name" id="cert-name">Aarav Sharma</div>
+    <div class="cert-name-underline"></div>
+
+    <div class="cert-body">
+      in recognition of the successful completion of the<br>
+      <strong id="cert-track">AI Builder — Middle Track (6–8)</strong><br>
+      demonstrating exceptional curiosity, technical skill, and ethical reasoning<br>
+      in the study and application of Artificial Intelligence.
+    </div>
+
+    <div style="height:12px"></div>
+
+    <div class="cert-module" id="cert-module">⚡ AI Builder — Middle Track (6–8)</div>
+
+    <div class="cert-skills" id="cert-skills">
+      <span class="cert-skill">Decision Trees</span>
+      <span class="cert-skill">ML Classification</span>
+      <span class="cert-skill">Chatbot Design</span>
+      <span class="cert-skill">Data & Bias</span>
+      <span class="cert-skill">AI Ethics</span>
+    </div>
+
+    <div class="cert-divider" style="margin-bottom:16px"></div>
+
+    <!-- SIGNATURES -->
+    <div class="cert-signatures">
+      <div class="sig-block">
+        <div class="sig-sign" id="sig-educator">Raja Ram Dev Sharma</div>
+        <div class="sig-line"></div>
+        <div class="sig-name" id="sig-name-text">[YOUR NAME]</div>
+        <div class="sig-role">Founder & Lead Educator</div>
+      </div>
+
+      <div class="cert-seal">
+        <div class="seal-text">AI<br>EXPLORER<br>✦<br>CERTIFIED</div>
+      </div>
+
+      <div class="sig-block">
+        <div class="sig-sign" id="sig-school">AI Explorer</div>
+        <div class="sig-line"></div>
+        <div class="sig-name" id="sig-school-text">AI EXPLORER PROGRAM</div>
+        <div class="sig-role">Hisar, Haryana · 2025</div>
+      </div>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="cert-bottom">
+      <div class="cert-date-id">
+        <span>Date of Completion</span>
+        <strong id="cert-date">—</strong>
+      </div>
+      <div class="cert-date-id" style="text-align:center">
+        <span>Curriculum Aligned To</span>
+        <strong>UNESCO · AI4K12 · NEP 2020</strong>
+      </div>
+      <div class="cert-date-id" style="text-align:right">
+        <span>Certificate ID</span>
+        <strong id="cert-id">AIE-2025-001</strong>
+      </div>
+    </div>
+
+    <!-- GRADE BADGE -->
+    <div style="margin-top:10px">
+      <div class="cert-grade-badge" id="cert-grade">🥈 With Merit</div>
+    </div>
+
+  </div><!-- /cert-content -->
+</div><!-- /certificate -->
+</div>
+
+<script>
+// Set today's date as default
+const today = new Date();
+document.getElementById('inp-date').value = today.toISOString().split('T')[0];
+
+const skillsByTrack = {
+  'AI Explorer — Primary Track (K–5)': ['Pattern Recognition','Image Classifiers','AI in Daily Life','Computational Thinking','Data Basics','AI Ethics Intro'],
+  'AI Builder — Middle Track (6–8)': ['Decision Trees','ML Classification','Chatbot Design','Data & Bias','Human-AI Interface','AI Ethics'],
+  'AI Innovator — High School Track (9–12)': ['Neural Networks','Python & TensorFlow','Supervised Learning','Data Bias Analysis','AI Ethics & Policy','Portfolio Project']
+};
+
+function update(){
+  const name = document.getElementById('inp-name').value || 'Student Name';
+  const track = document.getElementById('inp-track').value;
+  const dateVal = document.getElementById('inp-date').value;
+  const id = document.getElementById('inp-id').value || 'AIE-2025-001';
+  const educator = document.getElementById('inp-educator').value || 'Raja Ram Dev Sharma';
+  const school = document.getElementById('inp-school').value || 'AI Explorer Hisar';
+  const grade = document.getElementById('inp-grade').value;
+
+  document.getElementById('cert-name').textContent = name;
+  document.getElementById('cert-track').textContent = track;
+  document.getElementById('cert-module').textContent = track;
+  document.getElementById('sig-educator').textContent = educator;
+  document.getElementById('sig-name-text').textContent = educator.toUpperCase();
+  document.getElementById('sig-school').textContent = school;
+  document.getElementById('sig-school-text').textContent = school.toUpperCase();
+  document.getElementById('cert-id').textContent = id;
+  document.getElementById('cert-grade').textContent = grade;
+
+  if(dateVal){
+    const d = new Date(dateVal);
+    document.getElementById('cert-date').textContent = d.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
+  }
+
+  const skills = skillsByTrack[track] || [];
+  document.getElementById('cert-skills').innerHTML = skills.map(s=>`<span class="cert-skill">${s}</span>`).join('');
+}
+
+function generateNewId(){
+  const yr = new Date().getFullYear();
+  const num = String(Math.floor(Math.random()*900)+100);
+  document.getElementById('inp-id').value = `AIE-${yr}-${num}`;
+  update();
+}
+
+function clearAll(){
+  document.getElementById('inp-name').value = '';
+  document.getElementById('inp-id').value = 'AIE-2025-001';
+  document.getElementById('inp-educator').value = 'Raja Ram Dev Sharma';
+  document.getElementById('inp-school').value = 'AI Explorer Hisar';
+  update();
+}
+
+// Init
+update();
+</script>
+</body>
+</html>

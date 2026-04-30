@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enroll Now — AI Explorer Program</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080c14;
+  --surface:#0f1521;
+  --card:#131c2e;
+  --card2:#0f1825;
+  --border:rgba(255,255,255,0.08);
+  --accent:#00e5a0;
+  --accent2:#f5a623;
+  --text:#f0f4ff;
+  --muted:#7a8ba8;
+  --error:#ff6b6b;
+  --success:#00e5a0;
+  --input-bg:#0a1020;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(0,229,160,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,160,0.025) 1px,transparent 1px);
+  background-size:44px 44px;
+  pointer-events:none;z-index:0;
+}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,12,20,0.9);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.logo{
+  font-family:'Syne',sans-serif;font-size:17px;font-weight:800;
+  color:var(--accent);letter-spacing:-.3px;
+}
+.back-link{
+  font-size:12px;font-weight:500;color:var(--muted);
+  text-decoration:none;display:flex;align-items:center;gap:5px;
+  transition:color .2s;
+}
+.back-link:hover{color:var(--text)}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;
+  padding:52px 20px 40px;
+  text-align:center;
+  overflow:hidden;
+}
+.hero-glow{
+  position:absolute;top:-100px;left:50%;transform:translateX(-50%);
+  width:500px;height:400px;
+  background:radial-gradient(circle,rgba(0,229,160,0.1) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(0,229,160,0.08);
+  border:1px solid rgba(0,229,160,0.2);
+  color:var(--accent);font-size:12px;font-weight:600;
+  padding:6px 16px;border-radius:100px;margin-bottom:22px;
+  letter-spacing:.04em;
+}
+.badge-dot{
+  width:7px;height:7px;background:#ff6b6b;border-radius:50%;
+  animation:blink 1.4s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(30px,7vw,46px);
+  font-weight:800;line-height:1.1;letter-spacing:-1.2px;
+  margin-bottom:14px;
+}
+h1 span{color:var(--accent)}
+.hero-sub{
+  font-size:14px;color:var(--muted);
+  max-width:320px;margin:0 auto 0;line-height:1.7;
+}
+
+/* ── PROGRESS STEPS ── */
+.steps-wrap{
+  position:relative;z-index:1;
+  padding:28px 20px;
+}
+.steps{
+  display:flex;align-items:center;
+  gap:0;
+  max-width:440px;margin:0 auto;
+}
+.step-item{
+  display:flex;flex-direction:column;align-items:center;
+  flex:1;position:relative;
+}
+.step-item:not(:last-child)::after{
+  content:'';
+  position:absolute;top:16px;left:50%;
+  width:100%;height:2px;
+  background:var(--border);
+  z-index:0;
+}
+.step-item.done:not(:last-child)::after,
+.step-item.active:not(:last-child)::after{
+  background:var(--accent);
+}
+.step-circle{
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;
+  background:var(--surface);border:2px solid var(--border);
+  color:var(--muted);position:relative;z-index:1;
+  transition:all .3s;
+}
+.step-item.active .step-circle{
+  background:var(--accent);border-color:var(--accent);color:var(--bg);
+  box-shadow:0 0 20px rgba(0,229,160,0.4);
+}
+.step-item.done .step-circle{
+  background:rgba(0,229,160,0.15);border-color:var(--accent);color:var(--accent);
+}
+.step-label{
+  font-size:10px;font-weight:600;color:var(--muted);
+  margin-top:6px;letter-spacing:.03em;white-space:nowrap;
+  transition:color .3s;
+}
+.step-item.active .step-label{color:var(--accent)}
+.step-item.done .step-label{color:rgba(0,229,160,.7)}
+
+/* ── FORM CARD ── */
+.form-wrap{
+  position:relative;z-index:1;
+  padding:0 20px 60px;
+  max-width:520px;margin:0 auto;
+}
+.form-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:28px 24px;
+  margin-bottom:14px;
+}
+.form-step{display:none}
+.form-step.active{display:block}
+
+.step-header{margin-bottom:24px}
+.step-num-label{
+  font-size:11px;font-weight:600;letter-spacing:.08em;
+  color:var(--accent);text-transform:uppercase;margin-bottom:6px;
+}
+.step-title{
+  font-family:'Syne',sans-serif;
+  font-size:22px;font-weight:800;letter-spacing:-.4px;
+  margin-bottom:6px;
+}
+.step-sub{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* ── FORM FIELDS ── */
+.field{margin-bottom:18px}
+.field label{
+  display:block;font-size:12px;font-weight:600;
+  color:var(--muted);letter-spacing:.04em;
+  margin-bottom:7px;text-transform:uppercase;
+}
+.field input,.field select,.field textarea{
+  width:100%;
+  background:var(--input-bg);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:13px 16px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:14px;color:var(--text);
+  outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  appearance:none;
+  -webkit-appearance:none;
+}
+.field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a8ba8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 16px center;
+  padding-right:40px;cursor:pointer;
+}
+.field input::placeholder,.field textarea::placeholder{color:rgba(122,139,168,.5)}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(0,229,160,0.08);
+}
+.field input.error,.field select.error{border-color:var(--error)}
+.field-error{font-size:11px;color:var(--error);margin-top:5px;display:none}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ── GRADE SELECTOR ── */
+.grade-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+}
+.grade-btn{
+  background:var(--input-bg);
+  border:1px solid var(--border);
+  border-radius:12px;padding:12px 8px;
+  text-align:center;cursor:pointer;
+  transition:all .2s;
+}
+.grade-btn:hover{border-color:rgba(0,229,160,.3)}
+.grade-btn.selected{
+  background:rgba(0,229,160,0.08);
+  border-color:var(--accent);
+}
+.grade-btn .gb-grade{
+  font-family:'Syne',sans-serif;
+  font-size:15px;font-weight:800;
+  color:var(--accent);margin-bottom:2px;
+}
+.grade-btn .gb-label{font-size:10px;color:var(--muted);line-height:1.3}
+
+/* ── BATCH CARDS ── */
+.batch-grid{display:flex;flex-direction:column;gap:10px}
+.batch-card{
+  background:var(--input-bg);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px 16px;
+  cursor:pointer;
+  transition:all .2s;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.batch-card:hover{border-color:rgba(0,229,160,.3)}
+.batch-card.selected{background:rgba(0,229,160,0.07);border-color:var(--accent)}
+.batch-info h4{font-size:13px;font-weight:600;margin-bottom:3px}
+.batch-info p{font-size:12px;color:var(--muted)}
+.batch-seat{
+  font-size:11px;font-weight:600;
+  padding:4px 10px;border-radius:100px;
+  white-space:nowrap;
+}
+.seat-few{background:rgba(255,107,107,.1);color:#ff6b6b}
+.seat-ok{background:rgba(0,229,160,.1);color:var(--accent)}
+.batch-radio{
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-left:10px;transition:all .2s;
+}
+.batch-card.selected .batch-radio{
+  border-color:var(--accent);background:var(--accent);
+}
+.batch-card.selected .batch-radio::after{
+  content:'';width:6px;height:6px;border-radius:50%;background:var(--bg);
+}
+
+/* ── REFERRAL CHIPS ── */
+.ref-chips{display:flex;flex-wrap:wrap;gap:8px}
+.ref-chip{
+  background:var(--input-bg);
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:8px 16px;font-size:12px;font-weight:500;
+  cursor:pointer;transition:all .2s;color:var(--muted);
+}
+.ref-chip:hover{border-color:rgba(0,229,160,.3);color:var(--text)}
+.ref-chip.selected{
+  background:rgba(0,229,160,.08);border-color:var(--accent);color:var(--accent);
+}
+
+/* ── NAVIGATION BUTTONS ── */
+.form-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-top:24px;
+}
+.btn-prev{
+  background:transparent;border:1px solid var(--border);
+  color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:14px;font-weight:600;
+  padding:13px 22px;border-radius:12px;cursor:pointer;
+  transition:all .2s;
+}
+.btn-prev:hover{border-color:rgba(255,255,255,.2);color:var(--text)}
+.btn-next{
+  flex:1;background:var(--accent);color:var(--bg);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:14px;font-weight:700;
+  padding:14px 22px;border-radius:12px;cursor:pointer;
+  border:none;transition:all .2s;
+  box-shadow:0 0 24px rgba(0,229,160,.2);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-next:hover{box-shadow:0 4px 32px rgba(0,229,160,.35);transform:translateY(-1px)}
+.btn-next:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* ── SUMMARY CARD (Step 4) ── */
+.summary-section{margin-bottom:20px}
+.summary-label{
+  font-size:10px;font-weight:700;letter-spacing:.08em;
+  color:var(--muted);text-transform:uppercase;margin-bottom:10px;
+}
+.summary-row{
+  display:flex;justify-content:space-between;
+  align-items:flex-start;
+  padding:9px 0;border-bottom:1px solid var(--border);
+  font-size:13px;gap:12px;
+}
+.summary-row:last-child{border-bottom:none}
+.sr-label{color:var(--muted);flex-shrink:0}
+.sr-val{font-weight:600;text-align:right;line-height:1.4}
+.highlight-box{
+  background:rgba(0,229,160,0.06);
+  border:1px solid rgba(0,229,160,0.15);
+  border-radius:14px;padding:16px;
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:20px;
+}
+.hb-icon{font-size:28px}
+.hb-text h4{font-size:13px;font-weight:600;margin-bottom:2px}
+.hb-text p{font-size:12px;color:var(--muted)}
+.wa-submit{
+  width:100%;background:#25D366;color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;font-weight:700;
+  padding:16px 24px;border-radius:14px;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:transform .15s,box-shadow .15s;
+  box-shadow:0 4px 24px rgba(37,211,102,.3);
+}
+.wa-submit:hover{transform:translateY(-2px);box-shadow:0 6px 36px rgba(37,211,102,.45)}
+.wa-submit svg{width:20px;height:20px;fill:#fff;flex-shrink:0}
+.submit-note{
+  font-size:11px;color:var(--muted);
+  text-align:center;margin-top:12px;line-height:1.6;
+}
+
+/* ── SUCCESS STATE ── */
+.success-screen{
+  display:none;
+  text-align:center;
+  padding:40px 20px 60px;
+  position:relative;z-index:1;
+}
+.success-icon{
+  width:80px;height:80px;border-radius:50%;
+  background:rgba(0,229,160,.1);border:2px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size:36px;margin:0 auto 24px;
+  animation:popIn .5s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.success-screen h2{
+  font-family:'Syne',sans-serif;
+  font-size:28px;font-weight:800;letter-spacing:-.5px;
+  margin-bottom:12px;
+}
+.success-screen p{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:28px}
+.next-steps{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:18px;padding:22px;text-align:left;
+  margin:0 auto 24px;max-width:400px;
+}
+.ns-title{
+  font-size:11px;font-weight:700;letter-spacing:.07em;
+  color:var(--accent);text-transform:uppercase;margin-bottom:14px;
+}
+.ns-item{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:8px 0;font-size:13px;
+}
+.ns-num{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(0,229,160,.1);color:var(--accent);
+  font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+
+/* ── TRUST BAR ── */
+.trust-bar{
+  display:flex;flex-wrap:wrap;gap:16px;
+  justify-content:center;
+  padding:20px;
+  border-top:1px solid var(--border);
+  position:relative;z-index:1;
+}
+.trust-item{
+  display:flex;align-items:center;gap:7px;
+  font-size:12px;color:var(--muted);
+}
+.trust-icon{font-size:15px}
+
+/* ── FLOATING PREVIEW ── */
+.progress-hint{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px 16px;
+  margin-bottom:14px;
+  font-size:13px;
+}
+.ph-label{font-size:10px;font-weight:600;color:var(--accent);letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px}
+.ph-bar-wrap{background:var(--border);border-radius:4px;height:4px;margin-top:8px}
+.ph-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),#0af);transition:width .4s ease}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="logo">AI Explorer</span>
+  <a class="back-link" href="#">← Back to Program</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">
+    <div class="badge-dot"></div>
+    Enrolling now — limited seats
+  </div>
+  <h1>Secure Your Child's<br><span>AI Explorer</span> Spot.</h1>
+  <p class="hero-sub">Takes 2 minutes. We'll confirm your seat on WhatsApp immediately.</p>
+</div>
+
+<!-- PROGRESS STEPS -->
+<div class="steps-wrap">
+  <div class="steps" id="steps-bar">
+    <div class="step-item active" data-step="1">
+      <div class="step-circle">1</div>
+      <div class="step-label">Child Info</div>
+    </div>
+    <div class="step-item" data-step="2">
+      <div class="step-circle">2</div>
+      <div class="step-label">Parent Info</div>
+    </div>
+    <div class="step-item" data-step="3">
+      <div class="step-circle">3</div>
+      <div class="step-label">Batch</div>
+    </div>
+    <div class="step-item" data-step="4">
+      <div class="step-circle">✓</div>
+      <div class="step-label">Confirm</div>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap" id="form-wrap">
+
+  <!-- PROGRESS HINT -->
+  <div class="progress-hint" id="progress-hint">
+    <div class="ph-label" id="ph-label">Step 1 of 4 · Child Information</div>
+    <div class="ph-bar-wrap"><div class="ph-bar" id="ph-bar" style="width:25%"></div></div>
+  </div>
+
+  <div class="form-card">
+
+    <!-- ════ STEP 1: CHILD INFO ════ -->
+    <div class="form-step active" id="step1">
+      <div class="step-header">
+        <div class="step-num-label">Step 01 / 04</div>
+        <div class="step-title">Tell us about your child.</div>
+        <div class="step-sub">We'll place them in the right batch and track for the right grade level.</div>
+      </div>
+
+      <div class="field">
+        <label>Child's Full Name *</label>
+        <input type="text" id="child-name" placeholder="e.g. Aarav Sharma">
+        <div class="field-error" id="err-child-name">Please enter your child's name</div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Age *</label>
+          <select id="child-age">
+            <option value="">Select age</option>
+            <option>5</option><option>6</option><option>7</option><option>8</option>
+            <option>9</option><option>10</option><option>11</option><option>12</option>
+            <option>13</option><option>14</option><option>15</option><option>16</option>
+            <option>17</option><option>18</option>
+          </select>
+          <div class="field-error" id="err-child-age">Please select age</div>
+        </div>
+        <div class="field">
+          <label>Current Grade *</label>
+          <select id="child-grade-sel">
+            <option value="">Select grade</option>
+            <option>Grade 1</option><option>Grade 2</option><option>Grade 3</option>
+            <option>Grade 4</option><option>Grade 5</option><option>Grade 6</option>
+            <option>Grade 7</option><option>Grade 8</option><option>Grade 9</option>
+            <option>Grade 10</option><option>Grade 11</option><option>Grade 12</option>
+          </select>
+          <div class="field-error" id="err-child-grade">Please select grade</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>School Name *</label>
+        <input type="text" id="school-name" placeholder="e.g. Delhi Public School, Hisar">
+        <div class="field-error" id="err-school">Please enter school name</div>
+      </div>
+
+      <div class="field">
+        <label>Select Your Child's Program Track *</label>
+        <div class="grade-grid" id="track-grid">
+          <div class="grade-btn" onclick="selectTrack(this,'AI Explorer — Primary (K–5)')">
+            <div class="gb-grade">🌱 K–5</div>
+            <div class="gb-label">AI Explorer Primary</div>
+          </div>
+          <div class="grade-btn" onclick="selectTrack(this,'AI Builder — Middle (6–8)')">
+            <div class="gb-grade">⚡ 6–8</div>
+            <div class="gb-label">AI Builder Middle</div>
+          </div>
+          <div class="grade-btn" onclick="selectTrack(this,'AI Innovator — High School (9–12)')">
+            <div class="gb-grade">🚀 9–12</div>
+            <div class="gb-label">AI Innovator High</div>
+          </div>
+        </div>
+        <div class="field-error" id="err-track">Please select a program track</div>
+      </div>
+
+      <div class="field">
+        <label>Any prior experience with coding or AI?</label>
+        <select id="prior-exp">
+          <option value="">Select one</option>
+          <option>None at all — complete beginner</option>
+          <option>Some Scratch or block coding</option>
+          <option>Basic Python or programming</option>
+          <option>Has studied AI/ML before</option>
+        </select>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-next" onclick="goNext(1)">Continue → Parent Details</button>
+      </div>
+    </div>
+
+    <!-- ════ STEP 2: PARENT INFO ════ -->
+    <div class="form-step" id="step2">
+      <div class="step-header">
+        <div class="step-num-label">Step 02 / 04</div>
+        <div class="step-title">Your contact details.</div>
+        <div class="step-sub">We'll send your confirmation and batch details here on WhatsApp.</div>
+      </div>
+
+      <div class="field">
+        <label>Parent / Guardian Full Name *</label>
+        <input type="text" id="parent-name" placeholder="e.g. Priya Sharma">
+        <div class="field-error" id="err-parent-name">Please enter your name</div>
+      </div>
+
+      <div class="field">
+        <label>WhatsApp Number *</label>
+        <input type="tel" id="parent-phone" placeholder="+91 98765 43210" oninput="formatPhone(this)">
+        <div class="field-error" id="err-phone">Please enter a valid WhatsApp number</div>
+      </div>
+
+      <div class="field">
+        <label>Email Address (optional)</label>
+        <input type="email" id="parent-email" placeholder="priya@email.com">
+      </div>
+
+      <div class="field">
+        <label>City / District *</label>
+        <input type="text" id="parent-city" placeholder="e.g. Hisar, Haryana">
+        <div class="field-error" id="err-city">Please enter your city</div>
+      </div>
+
+      <div class="field">
+        <label>How did you hear about us? *</label>
+        <div class="ref-chips" id="ref-chips">
+          <div class="ref-chip" onclick="selectRef(this,'WhatsApp message')">📱 WhatsApp</div>
+          <div class="ref-chip" onclick="selectRef(this,'Facebook / Instagram')">📘 Facebook/IG</div>
+          <div class="ref-chip" onclick="selectRef(this,'TikTok')">🎵 TikTok</div>
+          <div class="ref-chip" onclick="selectRef(this,'Friend or family')">👥 Friend/Family</div>
+          <div class="ref-chip" onclick="selectRef(this,'School / Teacher')">🏫 School/Teacher</div>
+          <div class="ref-chip" onclick="selectRef(this,'YouTube')">▶️ YouTube</div>
+          <div class="ref-chip" onclick="selectRef(this,'Other')">✨ Other</div>
+        </div>
+        <div class="field-error" id="err-ref">Please select how you heard about us</div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-prev" onclick="goPrev(2)">← Back</button>
+        <button class="btn-next" onclick="goNext(2)">Continue → Choose Batch</button>
+      </div>
+    </div>
+
+    <!-- ════ STEP 3: BATCH SELECTION ════ -->
+    <div class="form-step" id="step3">
+      <div class="step-header">
+        <div class="step-num-label">Step 03 / 04</div>
+        <div class="step-title">Pick your preferred batch.</div>
+        <div class="step-sub">All batches run 3 sessions per week · 45 min each · 6 weeks total.</div>
+      </div>
+
+      <div class="field">
+        <label>Available Batches *</label>
+        <div class="batch-grid" id="batch-grid">
+          <div class="batch-card" onclick="selectBatch(this,'Batch A — Mon / Wed / Fri · 4:00–4:45 PM')">
+            <div class="batch-info">
+              <h4>Batch A — Morning Weekday</h4>
+              <p>Mon / Wed / Fri · 10:00–10:45 AM</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="batch-seat seat-ok">12 seats left</span>
+              <div class="batch-radio"></div>
+            </div>
+          </div>
+          <div class="batch-card" onclick="selectBatch(this,'Batch B — Mon / Wed / Fri · 4:00–4:45 PM')">
+            <div class="batch-info">
+              <h4>Batch B — Evening Weekday</h4>
+              <p>Mon / Wed / Fri · 4:00–4:45 PM</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="batch-seat seat-few">5 seats left</span>
+              <div class="batch-radio"></div>
+            </div>
+          </div>
+          <div class="batch-card" onclick="selectBatch(this,'Batch C — Sat / Sun · 10:00–10:45 AM')">
+            <div class="batch-info">
+              <h4>Batch C — Weekend Morning</h4>
+              <p>Sat / Sun · 10:00–10:45 AM</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="batch-seat seat-ok">18 seats left</span>
+              <div class="batch-radio"></div>
+            </div>
+          </div>
+          <div class="batch-card" onclick="selectBatch(this,'Batch D — Sat / Sun · 3:00–3:45 PM')">
+            <div class="batch-info">
+              <h4>Batch D — Weekend Afternoon</h4>
+              <p>Sat / Sun · 3:00–3:45 PM</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="batch-seat seat-few">3 seats left</span>
+              <div class="batch-radio"></div>
+            </div>
+          </div>
+        </div>
+        <div class="field-error" id="err-batch">Please select a batch</div>
+      </div>
+
+      <div class="field">
+        <label>Mode of Learning *</label>
+        <select id="mode">
+          <option value="">Select mode</option>
+          <option>Online (Google Meet / Zoom)</option>
+          <option>In-person (at school/centre)</option>
+          <option>Hybrid (mix of both)</option>
+        </select>
+        <div class="field-error" id="err-mode">Please select a mode</div>
+      </div>
+
+      <div class="field">
+        <label>Device available at home</label>
+        <select id="device">
+          <option value="">Select device</option>
+          <option>Smartphone only</option>
+          <option>Tablet</option>
+          <option>Chromebook / Laptop</option>
+          <option>Desktop computer</option>
+          <option>No device — need support</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Any special requests or questions?</label>
+        <textarea id="notes" rows="3" placeholder="e.g. My child has dyslexia, can we accommodate? Or: Is there a sibling discount?"></textarea>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-prev" onclick="goPrev(3)">← Back</button>
+        <button class="btn-next" onclick="goNext(3)">Review & Confirm →</button>
+      </div>
+    </div>
+
+    <!-- ════ STEP 4: CONFIRM ════ -->
+    <div class="form-step" id="step4">
+      <div class="step-header">
+        <div class="step-num-label">Step 04 / 04</div>
+        <div class="step-title">Review & confirm.</div>
+        <div class="step-sub">Double-check the details below, then tap the WhatsApp button to confirm your seat.</div>
+      </div>
+
+      <div class="highlight-box">
+        <div class="hb-icon">🎉</div>
+        <div class="hb-text">
+          <h4>Almost there! One tap to confirm.</h4>
+          <p>We'll reserve your seat and send a confirmation message within 5 minutes.</p>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="summary-section">
+        <div class="summary-label">Child Information</div>
+        <div class="summary-row"><span class="sr-label">Name</span><span class="sr-val" id="sum-child-name">—</span></div>
+        <div class="summary-row"><span class="sr-label">Age / Grade</span><span class="sr-val" id="sum-child-grade">—</span></div>
+        <div class="summary-row"><span class="sr-label">School</span><span class="sr-val" id="sum-school">—</span></div>
+        <div class="summary-row"><span class="sr-label">Program Track</span><span class="sr-val" id="sum-track">—</span></div>
+      </div>
+
+      <div class="summary-section">
+        <div class="summary-label">Parent / Contact</div>
+        <div class="summary-row"><span class="sr-label">Name</span><span class="sr-val" id="sum-parent-name">—</span></div>
+        <div class="summary-row"><span class="sr-label">WhatsApp</span><span class="sr-val" id="sum-phone">—</span></div>
+        <div class="summary-row"><span class="sr-label">City</span><span class="sr-val" id="sum-city">—</span></div>
+        <div class="summary-row"><span class="sr-label">Heard via</span><span class="sr-val" id="sum-ref">—</span></div>
+      </div>
+
+      <div class="summary-section">
+        <div class="summary-label">Batch & Learning</div>
+        <div class="summary-row"><span class="sr-label">Batch</span><span class="sr-val" id="sum-batch">—</span></div>
+        <div class="summary-row"><span class="sr-label">Mode</span><span class="sr-val" id="sum-mode">—</span></div>
+        <div class="summary-row"><span class="sr-label">Device</span><span class="sr-val" id="sum-device">—</span></div>
+      </div>
+
+      <button class="wa-submit" onclick="submitForm()">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.504 3.935 1.385 5.619L0 24l6.545-1.361A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.805 9.805 0 01-5.032-1.386l-.36-.214-3.733.979.996-3.648-.235-.374A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+        Confirm on WhatsApp → Reserve My Seat
+      </button>
+      <p class="submit-note">By confirming, you agree to be contacted on WhatsApp. No spam — ever. We reply within 5 min during school hours.</p>
+
+      <div class="form-nav" style="margin-top:16px">
+        <button class="btn-prev" onclick="goPrev(4)">← Edit details</button>
+      </div>
+    </div>
+
+  </div><!-- /form-card -->
+</div><!-- /form-wrap -->
+
+<!-- SUCCESS STATE -->
+<div class="success-screen" id="success-screen">
+  <div class="success-icon">🎉</div>
+  <h2>You're on your way!</h2>
+  <p>Your enrollment request has been sent to WhatsApp.<br>We'll confirm your child's seat within <strong style="color:var(--accent)">5 minutes</strong>.</p>
+
+  <div class="next-steps">
+    <div class="ns-title">What happens next</div>
+    <div class="ns-item">
+      <div class="ns-num">1</div>
+      <span>Check WhatsApp — we'll send a confirmation message with your batch details</span>
+    </div>
+    <div class="ns-item">
+      <div class="ns-num">2</div>
+      <span>We'll share the first lesson plan and materials 2 days before class starts</span>
+    </div>
+    <div class="ns-item">
+      <div class="ns-num">3</div>
+      <span>Your child joins their first session — and builds their first AI by end of week 1</span>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:var(--muted)">Questions? Just reply to our WhatsApp message — we're always there.</p>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar" id="trust-bar">
+  <div class="trust-item"><span class="trust-icon">🔒</span> No payment taken online</div>
+  <div class="trust-item"><span class="trust-icon">✅</span> UNESCO aligned curriculum</div>
+  <div class="trust-item"><span class="trust-icon">📱</span> Instant WhatsApp confirmation</div>
+  <div class="trust-item"><span class="trust-icon">🏫</span> Trusted by 100+ teachers</div>
+</div>
+
+<script>
+// ── STATE ──
+let state = {
+  childName:'', childAge:'', childGrade:'', school:'',
+  track:'', priorExp:'',
+  parentName:'', phone:'', email:'', city:'', ref:'',
+  batch:'', mode:'', device:'', notes:''
+};
+
+let currentStep = 1;
+
+// ── GRADE TRACK SELECT ──
+function selectTrack(el, val){
+  document.querySelectorAll('#track-grid .grade-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  state.track = val;
+}
+
+// ── REFERRAL SELECT ──
+function selectRef(el, val){
+  document.querySelectorAll('#ref-chips .ref-chip').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.ref = val;
+}
+
+// ── BATCH SELECT ──
+function selectBatch(el, val){
+  document.querySelectorAll('#batch-grid .batch-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.batch = val;
+}
+
+// ── PHONE FORMAT ──
+function formatPhone(el){
+  let v = el.value.replace(/[^\d+]/g,'');
+  el.value = v;
+}
+
+// ── VALIDATION ──
+function showError(id, show){
+  const el = document.getElementById(id);
+  if(el) el.style.display = show ? 'block' : 'none';
+}
+function markError(fieldId, errId, show){
+  const field = document.getElementById(fieldId);
+  if(field){
+    field.classList.toggle('error', show);
+  }
+  showError(errId, show);
+}
+
+function validateStep(step){
+  let valid = true;
+  if(step === 1){
+    const cn = document.getElementById('child-name').value.trim();
+    const ca = document.getElementById('child-age').value;
+    const cg = document.getElementById('child-grade-sel').value;
+    const sc = document.getElementById('school-name').value.trim();
+    markError('child-name','err-child-name',!cn); if(!cn) valid=false;
+    markError('child-age','err-child-age',!ca); if(!ca) valid=false;
+    markError('child-grade-sel','err-child-grade',!cg); if(!cg) valid=false;
+    markError('school-name','err-school',!sc); if(!sc) valid=false;
+    showError('err-track',!state.track); if(!state.track) valid=false;
+    if(valid){
+      state.childName=cn; state.childAge=ca;
+      state.childGrade=cg; state.school=sc;
+      state.priorExp=document.getElementById('prior-exp').value;
+    }
+  }
+  if(step === 2){
+    const pn = document.getElementById('parent-name').value.trim();
+    const ph = document.getElementById('parent-phone').value.trim();
+    const cy = document.getElementById('parent-city').value.trim();
+    markError('parent-name','err-parent-name',!pn); if(!pn) valid=false;
+    const phoneOk = ph.length >= 10;
+    markError('parent-phone','err-phone',!phoneOk); if(!phoneOk) valid=false;
+    markError('parent-city','err-city',!cy); if(!cy) valid=false;
+    showError('err-ref',!state.ref); if(!state.ref) valid=false;
+    if(valid){
+      state.parentName=pn; state.phone=ph; state.city=cy;
+      state.email=document.getElementById('parent-email').value.trim();
+    }
+  }
+  if(step === 3){
+    const md = document.getElementById('mode').value;
+    showError('err-batch',!state.batch); if(!state.batch) valid=false;
+    markError('mode','err-mode',!md); if(!md) valid=false;
+    if(valid){
+      state.mode=md;
+      state.device=document.getElementById('device').value;
+      state.notes=document.getElementById('notes').value.trim();
+    }
+  }
+  return valid;
+}
+
+// ── NAVIGATION ──
+function goNext(from){
+  if(!validateStep(from)) return;
+  setStep(from+1);
+}
+function goPrev(from){
+  setStep(from-1);
+}
+
+function setStep(n){
+  currentStep = n;
+  document.querySelectorAll('.form-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+
+  // Update progress bar steps
+  document.querySelectorAll('.step-item').forEach((item,i)=>{
+    item.classList.remove('active','done');
+    if(i+1 === n) item.classList.add('active');
+    else if(i+1 < n) item.classList.add('done');
+  });
+
+  // Update hint
+  const labels=['Child Information','Parent Information','Choose Batch','Review & Confirm'];
+  const pcts=[25,50,75,100];
+  document.getElementById('ph-label').textContent=`Step ${n} of 4 · ${labels[n-1]}`;
+  document.getElementById('ph-bar').style.width=pcts[n-1]+'%';
+
+  if(n === 4) buildSummary();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── SUMMARY ──
+function buildSummary(){
+  document.getElementById('sum-child-name').textContent = state.childName;
+  document.getElementById('sum-child-grade').textContent = `${state.childAge} yrs · ${state.childGrade}`;
+  document.getElementById('sum-school').textContent = state.school;
+  document.getElementById('sum-track').textContent = state.track || '—';
+  document.getElementById('sum-parent-name').textContent = state.parentName;
+  document.getElementById('sum-phone').textContent = state.phone;
+  document.getElementById('sum-city').textContent = state.city;
+  document.getElementById('sum-ref').textContent = state.ref || '—';
+  document.getElementById('sum-batch').textContent = state.batch || '—';
+  document.getElementById('sum-mode').textContent = state.mode;
+  document.getElementById('sum-device').textContent = state.device || 'Not specified';
+}
+
+// ── SUBMIT → WHATSAPP ──
+function submitForm(){
+  const msg = `Hi! I'd like to enroll my child in the AI Explorer program. 🎉
+
+*Child Details*
+• Name: ${state.childName}
+• Age / Grade: ${state.childAge} yrs · ${state.childGrade}
+• School: ${state.school}
+• Program Track: ${state.track}
+• Prior Experience: ${state.priorExp || 'Not specified'}
+
+*Parent / Contact*
+• Name: ${state.parentName}
+• WhatsApp: ${state.phone}
+• Email: ${state.email || 'Not provided'}
+• City: ${state.city}
+• Heard via: ${state.ref}
+
+*Batch Preference*
+• Batch: ${state.batch}
+• Mode: ${state.mode}
+• Device at home: ${state.device || 'Not specified'}
+
+*Special Requests*
+${state.notes || 'None'}
+
+Please confirm my seat. Thank you! 🙏`;
+
+  const encoded = encodeURIComponent(msg);
+  const waNumber = '919996373130'; // ← Replace with your number
+  const url = `https://wa.me/${waNumber}?text=${encoded}`;
+  window.open(url,'_blank');
+
+  // Show success
+  document.getElementById('form-wrap').style.display='none';
+  document.getElementById('steps-wrap').style.display='none';
+  document.querySelector('.hero').style.display='none';
+  document.getElementById('success-screen').style.display='block';
+  document.getElementById('trust-bar').style.display='none';
+}
+
+// ── STEPS BAR REF ──
+const stepsWrap = document.querySelector('.steps-wrap');
+stepsWrap.id = 'steps-wrap';
+</script>
+</body>
+</html>

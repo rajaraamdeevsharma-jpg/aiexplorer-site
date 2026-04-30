@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Explorer — K–12 AI Education Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c14;
+  --surface: #0f1521;
+  --card: #131c2e;
+  --border: rgba(255,255,255,0.07);
+  --accent: #00e5a0;
+  --accent2: #0af;
+  --text: #f0f4ff;
+  --muted: #7a8ba8;
+  --warn: #ffb347;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* ── GRID BG ── */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(0,229,160,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,160,0.03) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── NAV ── */
+nav{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(8,12,20,0.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.logo{
+  font-family:'Syne',sans-serif;
+  font-size:18px;
+  font-weight:800;
+  color:var(--accent);
+  letter-spacing:-0.5px;
+}
+.nav-cta{
+  background:var(--accent);
+  color:#080c14;
+  font-weight:600;
+  font-size:13px;
+  padding:8px 18px;
+  border-radius:100px;
+  text-decoration:none;
+  transition:opacity .2s;
+}
+.nav-cta:hover{opacity:.85}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  z-index:1;
+  padding:70px 20px 60px;
+  text-align:center;
+  overflow:hidden;
+}
+.hero-glow{
+  position:absolute;
+  top:-80px;left:50%;
+  transform:translateX(-50%);
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(0,229,160,0.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(0,229,160,0.1);
+  border:1px solid rgba(0,229,160,0.25);
+  color:var(--accent);
+  font-size:12px;
+  font-weight:600;
+  padding:6px 14px;
+  border-radius:100px;
+  margin-bottom:24px;
+  letter-spacing:.04em;
+}
+.hero-badge span{
+  width:6px;height:6px;
+  background:var(--accent);
+  border-radius:50%;
+  animation:pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(36px,8vw,58px);
+  font-weight:800;
+  line-height:1.1;
+  letter-spacing:-1.5px;
+  margin-bottom:20px;
+}
+h1 em{
+  font-style:normal;
+  color:var(--accent);
+}
+.hero-sub{
+  color:var(--muted);
+  font-size:16px;
+  max-width:340px;
+  margin:0 auto 36px;
+  line-height:1.7;
+}
+.hero-btns{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  max-width:280px;
+  margin:0 auto 48px;
+}
+.btn-primary{
+  background:var(--accent);
+  color:#080c14;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700;
+  font-size:15px;
+  padding:15px 28px;
+  border-radius:14px;
+  text-decoration:none;
+  border:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:transform .15s,box-shadow .15s;
+  box-shadow:0 0 30px rgba(0,229,160,0.25);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 40px rgba(0,229,160,0.4)}
+.btn-secondary{
+  background:transparent;
+  color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:600;
+  font-size:15px;
+  padding:14px 28px;
+  border-radius:14px;
+  text-decoration:none;
+  border:1px solid var(--border);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:border-color .2s,background .2s;
+}
+.btn-secondary:hover{border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.04)}
+
+/* ── STATS BAR ── */
+.stats-bar{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  margin:0 20px 60px;
+  position:relative;
+  z-index:1;
+}
+.stat-item{
+  background:var(--surface);
+  padding:20px 12px;
+  text-align:center;
+}
+.stat-item .num{
+  font-family:'Syne',sans-serif;
+  font-size:26px;
+  font-weight:800;
+  color:var(--accent);
+  line-height:1;
+  margin-bottom:4px;
+}
+.stat-item .lbl{
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.3;
+}
+
+/* ── SECTION ── */
+section{
+  position:relative;
+  z-index:1;
+  padding:0 20px 60px;
+}
+.sec-label{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.1em;
+  color:var(--accent);
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.sec-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(24px,6vw,32px);
+  font-weight:800;
+  line-height:1.15;
+  letter-spacing:-0.5px;
+  margin-bottom:8px;
+}
+.sec-sub{
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:28px;
+  line-height:1.7;
+}
+
+/* ── GRADE CARDS ── */
+.grade-cards{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.grade-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:22px;
+  position:relative;
+  overflow:hidden;
+  transition:border-color .2s,transform .2s;
+}
+.grade-card:hover{border-color:rgba(255,255,255,0.14);transform:translateY(-2px)}
+.grade-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  border-radius:18px 18px 0 0;
+}
+.gc-primary::before{background:linear-gradient(90deg,#00e5a0,#00c4e0)}
+.gc-middle::before{background:linear-gradient(90deg,#ffb347,#ff6b6b)}
+.gc-high::before{background:linear-gradient(90deg,#a78bfa,#ec4899)}
+.grade-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+}
+.grade-tag{
+  font-size:11px;
+  font-weight:700;
+  padding:4px 12px;
+  border-radius:100px;
+  letter-spacing:.04em;
+}
+.gt-primary{background:rgba(0,229,160,0.12);color:#00e5a0}
+.gt-middle{background:rgba(255,179,71,0.12);color:#ffb347}
+.gt-high{background:rgba(167,139,250,0.12);color:#a78bfa}
+.grade-title{
+  font-family:'Syne',sans-serif;
+  font-size:19px;
+  font-weight:800;
+  margin-bottom:8px;
+  letter-spacing:-0.3px;
+}
+.grade-desc{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.65;
+  margin-bottom:16px;
+}
+.skills-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+.skill-chip{
+  font-size:11px;
+  font-weight:500;
+  padding:5px 11px;
+  border-radius:100px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--border);
+  color:var(--text);
+}
+
+/* ── WHY CARDS ── */
+.why-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.why-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px 16px;
+}
+.why-icon{
+  font-size:26px;
+  margin-bottom:10px;
+  display:block;
+}
+.why-card h4{
+  font-family:'Syne',sans-serif;
+  font-size:15px;
+  font-weight:800;
+  margin-bottom:6px;
+  letter-spacing:-0.2px;
+}
+.why-card p{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* ── TIMELINE ── */
+.timeline{
+  position:relative;
+  padding-left:28px;
+}
+.timeline::before{
+  content:'';
+  position:absolute;
+  left:7px;top:8px;bottom:8px;
+  width:1px;
+  background:linear-gradient(to bottom,var(--accent),rgba(0,229,160,0));
+}
+.tl-item{
+  position:relative;
+  margin-bottom:28px;
+}
+.tl-dot{
+  position:absolute;
+  left:-28px;
+  top:4px;
+  width:14px;height:14px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 12px rgba(0,229,160,0.6);
+}
+.tl-week{
+  font-size:11px;
+  font-weight:600;
+  color:var(--accent);
+  letter-spacing:.05em;
+  margin-bottom:4px;
+}
+.tl-title{
+  font-family:'Syne',sans-serif;
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:4px;
+}
+.tl-desc{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* ── TESTIMONIAL ── */
+.testimonial{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:24px;
+  margin-bottom:14px;
+  position:relative;
+}
+.testimonial::before{
+  content:'"';
+  position:absolute;
+  top:12px;right:18px;
+  font-family:'Syne',sans-serif;
+  font-size:60px;
+  color:var(--accent);
+  opacity:.2;
+  line-height:1;
+}
+.t-text{
+  font-size:14px;
+  color:var(--text);
+  line-height:1.7;
+  margin-bottom:16px;
+  font-style:italic;
+}
+.t-author{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.t-avatar{
+  width:36px;height:36px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;
+  font-size:13px;
+  font-weight:800;
+  flex-shrink:0;
+}
+.av1{background:linear-gradient(135deg,#00e5a0,#0af);color:#080c14}
+.av2{background:linear-gradient(135deg,#ffb347,#ff6b6b);color:#080c14}
+.t-name{
+  font-size:13px;
+  font-weight:600;
+}
+.t-role{
+  font-size:11px;
+  color:var(--muted);
+}
+
+/* ── FAQ ── */
+.faq-item{
+  border-bottom:1px solid var(--border);
+  padding:16px 0;
+}
+.faq-q{
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.faq-icon{
+  color:var(--accent);
+  font-size:18px;
+  transition:transform .2s;
+  flex-shrink:0;
+}
+.faq-a{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.7;
+  margin-top:10px;
+  display:none;
+}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+
+/* ── CTA SECTION ── */
+.cta-section{
+  margin:0 20px 40px;
+  background:linear-gradient(135deg,rgba(0,229,160,0.1),rgba(0,170,255,0.08));
+  border:1px solid rgba(0,229,160,0.2);
+  border-radius:24px;
+  padding:36px 24px;
+  text-align:center;
+  position:relative;
+  z-index:1;
+  overflow:hidden;
+}
+.cta-section::before{
+  content:'';
+  position:absolute;
+  top:-60px;right:-60px;
+  width:200px;height:200px;
+  background:radial-gradient(circle,rgba(0,229,160,0.15),transparent 70%);
+  pointer-events:none;
+}
+.cta-section h2{
+  font-family:'Syne',sans-serif;
+  font-size:26px;
+  font-weight:800;
+  letter-spacing:-0.5px;
+  margin-bottom:10px;
+}
+.cta-section p{
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:24px;
+  line-height:1.6;
+}
+.wa-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  background:#25D366;
+  color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700;
+  font-size:15px;
+  padding:15px 28px;
+  border-radius:14px;
+  text-decoration:none;
+  width:100%;
+  transition:transform .15s,box-shadow .15s;
+  box-shadow:0 4px 24px rgba(37,211,102,0.3);
+}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 6px 32px rgba(37,211,102,0.45)}
+.wa-btn svg{width:22px;height:22px;fill:#fff;flex-shrink:0}
+.seats-note{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+.seats-dot{
+  width:7px;height:7px;
+  background:#ff6b6b;
+  border-radius:50%;
+  animation:pulse 1.5s ease-in-out infinite;
+}
+
+/* ── FOOTER ── */
+footer{
+  text-align:center;
+  padding:24px 20px 40px;
+  border-top:1px solid var(--border);
+  position:relative;
+  z-index:1;
+}
+footer p{font-size:12px;color:var(--muted)}
+footer .logo{font-size:16px;margin-bottom:8px;display:block}
+
+/* ── ANIMATIONS ── */
+.fade-in{
+  opacity:0;
+  transform:translateY(24px);
+  animation:fadeUp .6s ease forwards;
+}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.d1{animation-delay:.1s}
+.d2{animation-delay:.2s}
+.d3{animation-delay:.3s}
+.d4{animation-delay:.4s}
+.d5{animation-delay:.5s}
+
+/* ── FLOATING PARTICLES ── */
+.particles{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+}
+.p{
+  position:absolute;
+  width:3px;height:3px;
+  background:var(--accent);
+  border-radius:50%;
+  opacity:0;
+  animation:float linear infinite;
+}
+@keyframes float{
+  0%{opacity:0;transform:translateY(100px)}
+  10%{opacity:.6}
+  90%{opacity:.2}
+  100%{opacity:0;transform:translateY(-400px)}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="logo">AI Explorer</span>
+  <a class="nav-cta" href="https://wa.me/919996373130?text=Hi!%20I%20want%20to%20enroll%20in%20the%20AI%20Explorer%20program" target="_blank">Enroll Now</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="particles" id="particles"></div>
+
+  <div class="hero-badge fade-in d1">
+    <span></span> Now enrolling — 2025 batch
+  </div>
+
+  <h1 class="fade-in d2">
+    Your Child's<br><em>Future is AI.</em><br>Start Today.
+  </h1>
+
+  <p class="hero-sub fade-in d3">
+    A hands-on K–12 program where students build real AI — image classifiers, chatbots, and more. No coding experience needed.
+  </p>
+
+  <div class="hero-btns fade-in d4">
+    <a class="btn-primary" href="https://wa.me/919996373130?text=Hi!%20I%20want%20to%20enroll%20in%20the%20AI%20Explorer%20program" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.504 3.935 1.385 5.619L0 24l6.545-1.361A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.805 9.805 0 01-5.032-1.386l-.36-.214-3.733.979.996-3.648-.235-.374A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+      Chat on WhatsApp
+    </a>
+    <a class="btn-secondary" href="#grades">See the Curriculum ↓</a>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar fade-in d5">
+  <div class="stat-item">
+    <div class="num">K–12</div>
+    <div class="lbl">All grade bands</div>
+  </div>
+  <div class="stat-item">
+    <div class="num">100+</div>
+    <div class="lbl">Teachers trained</div>
+  </div>
+  <div class="stat-item">
+    <div class="num">0</div>
+    <div class="lbl">Tech skills needed</div>
+  </div>
+</div>
+
+<!-- GRADES -->
+<section id="grades">
+  <p class="sec-label">The curriculum</p>
+  <h2 class="sec-title">Built for every age,<br>every level.</h2>
+  <p class="sec-sub">Three thoughtfully designed tracks — your child joins the one that matches their grade.</p>
+
+  <div class="grade-cards">
+    <div class="grade-card gc-primary">
+      <div class="grade-header">
+        <span class="grade-tag gt-primary">Grades K–5</span>
+        <span style="font-size:22px">🌱</span>
+      </div>
+      <div class="grade-title">AI Explorer — Primary</div>
+      <div class="grade-desc">Students discover AI in everyday life — voice assistants, smart toys, face unlock. Fun unplugged games build intuition before any screen time.</div>
+      <div class="skills-list">
+        <span class="skill-chip">What is AI?</span>
+        <span class="skill-chip">Pattern recognition</span>
+        <span class="skill-chip">Image classifiers</span>
+        <span class="skill-chip">AI in daily life</span>
+        <span class="skill-chip">Unplugged games</span>
+      </div>
+    </div>
+
+    <div class="grade-card gc-middle">
+      <div class="grade-header">
+        <span class="grade-tag gt-middle">Grades 6–8</span>
+        <span style="font-size:22px">⚡</span>
+      </div>
+      <div class="grade-title">AI Builder — Middle</div>
+      <div class="grade-desc">Students build decision trees, train classifiers, and create their first chatbot using block-based tools. They also begin asking: is this AI fair?</div>
+      <div class="skills-list">
+        <span class="skill-chip">Decision trees</span>
+        <span class="skill-chip">Build a chatbot</span>
+        <span class="skill-chip">Data & bias</span>
+        <span class="skill-chip">Scratch ML</span>
+        <span class="skill-chip">Human-AI interface</span>
+      </div>
+    </div>
+
+    <div class="grade-card gc-high">
+      <div class="grade-header">
+        <span class="grade-tag gt-high">Grades 9–12</span>
+        <span style="font-size:22px">🚀</span>
+      </div>
+      <div class="grade-title">AI Innovator — High School</div>
+      <div class="grade-desc">Students train neural networks in Python, analyze societal impacts of AI, and build portfolio-worthy projects debating ethics, privacy, and the future of work.</div>
+      <div class="skills-list">
+        <span class="skill-chip">Python + TensorFlow</span>
+        <span class="skill-chip">Neural networks</span>
+        <span class="skill-chip">AI ethics</span>
+        <span class="skill-chip">Supervised learning</span>
+        <span class="skill-chip">Portfolio project</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section>
+  <p class="sec-label">Why this program</p>
+  <h2 class="sec-title">Everything parents ask about — answered.</h2>
+  <p class="sec-sub">Designed with UNESCO and AI4K12 frameworks. Trusted by schools.</p>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <span class="why-icon">📱</span>
+      <h4>Works on any device</h4>
+      <p>One shared tablet or Chromebook is enough. Many lessons are unplugged.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">👩‍🏫</span>
+      <h4>Expert teachers</h4>
+      <p>All instructors complete AI literacy certification before your child's first class.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">🔒</span>
+      <h4>Safe & private</h4>
+      <p>No personal data used. All tools are age-appropriate and COPPA compliant.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">🏆</span>
+      <h4>Real projects</h4>
+      <p>Students graduate with actual AI models they built themselves — not just slides.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">🌍</span>
+      <h4>UNESCO aligned</h4>
+      <p>Curriculum follows international AI competency frameworks for students.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">💬</span>
+      <h4>Ethics built in</h4>
+      <p>Every module includes discussion on fairness, bias, and responsible AI use.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section>
+  <p class="sec-label">What to expect</p>
+  <h2 class="sec-title">Your child's first 6 weeks.</h2>
+  <p class="sec-sub">A structured, fun journey from zero to building real AI.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-week">Week 1–2</div>
+      <div class="tl-title">What Is AI? The Basics</div>
+      <div class="tl-desc">Students identify AI in everyday life, play the "Be the AI" sorting game, and build their first image classifier using Google Teachable Machine.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-week">Week 3–4</div>
+      <div class="tl-title">How AI Learns From Data</div>
+      <div class="tl-desc">Students collect their own data, train a model, and discover what happens when training data is unfair — a hands-on intro to AI bias.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-week">Week 5</div>
+      <div class="tl-title">Build Your Own Chatbot</div>
+      <div class="tl-desc">Using Scratch or simple Python blocks, students design a conversational agent for a task they choose — greeting visitors, telling jokes, quizzing friends.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-week">Week 6</div>
+      <div class="tl-title">Project Demo Day 🎉</div>
+      <div class="tl-desc">Students present their AI project to the class, explain their design choices, and receive a certificate of completion. Parents are invited!</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <p class="sec-label">What parents say</p>
+  <h2 class="sec-title">Real results from real classrooms.</h2>
+  <p class="sec-sub">Pilot cohort feedback — Haryana schools, early 2025.</p>
+
+  <div class="testimonial">
+    <p class="t-text">My daughter came home so excited — she showed me the AI she trained to recognise her cat. I had no idea Grade 4 students could do something like this.</p>
+    <div class="t-author">
+      <div class="t-avatar av1">SM</div>
+      <div>
+        <div class="t-name">Sunita Mehra</div>
+        <div class="t-role">Parent of Grade 4 student, Hisar</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="testimonial">
+    <p class="t-text">The lesson plans are so well-structured. My students with zero coding background had a full discussion about AI fairness by Week 2. I was blown away.</p>
+    <div class="t-author">
+      <div class="t-avatar av2">RK</div>
+      <div>
+        <div class="t-name">Rajesh Kumar</div>
+        <div class="t-role">Grade 6 Teacher, Govt. School Haryana</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <p class="sec-label">FAQs</p>
+  <h2 class="sec-title">Got questions?<br>We've got answers.</h2>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">Does my child need to know coding? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Not at all. We start from zero. The K–5 modules use zero coding — just games and discussions. Coding is introduced gradually for older students using simple block-based tools.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">What devices are needed? <span class="faq-icon">+</span></div>
+    <div class="faq-a">A single tablet or Chromebook is enough. Many of our activities are completely offline — we use printed cards, role-play, and group games. Students can also use smartphones for some demos.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">How long is each session? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Each lesson is 45 minutes. The 6-week module has 3 lessons per week — fitting easily into a school timetable or as an after-school club.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">Is this program safe and age-appropriate? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Yes. We follow UNESCO and AI4K12 safety guidelines. No personal data is collected from students. All online tools are browser-based and do not require accounts. Ethics and digital citizenship are built into every module.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">What does my child receive at the end? <span class="faq-icon">+</span></div>
+    <div class="faq-a">A completion certificate, their AI project files to keep, and a portfolio write-up they can use for school admissions or competitions. High school students build a project suitable for science fairs.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">How much does it cost? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Contact us on WhatsApp for current pricing and scholarship options. Pilot cohort spots may be subsidised. We believe no child should miss out because of cost.</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Ready to enroll?<br>Let's talk. 👋</h2>
+  <p>Message us on WhatsApp right now. We'll tell you which batch suits your child and answer any questions you have.</p>
+  <a class="wa-btn" href="https://wa.me/919996373130?text=Hi!%20I%20want%20to%20enroll%20my%20child%20in%20the%20AI%20Explorer%20program.%20Please%20share%20details!" target="_blank">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.504 3.935 1.385 5.619L0 24l6.545-1.361A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.805 9.805 0 01-5.032-1.386l-.36-.214-3.733.979.996-3.648-.235-.374A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+    WhatsApp Us to Enroll
+  </a>
+  <div class="seats-note">
+    <div class="seats-dot"></div>
+    Only 30 seats per batch — filling fast
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="logo">AI Explorer</span>
+  <p>K–12 AI Education Program · Aligned to AI4K12 & UNESCO frameworks</p>
+  <p style="margin-top:6px">© 2025 AI Explorer. All rights reserved.</p>
+</footer>
+
+<script>
+// Particles
+const container = document.getElementById('particles');
+for(let i = 0; i < 12; i++){
+  const p = document.createElement('div');
+  p.className = 'p';
+  p.style.cssText = `
+    left:${Math.random()*100}%;
+    animation-duration:${4+Math.random()*6}s;
+    animation-delay:${Math.random()*6}s;
+    width:${2+Math.random()*3}px;
+    height:${2+Math.random()*3}px;
+    opacity:${0.3+Math.random()*0.4};
+  `;
+  container.appendChild(p);
+}
+
+// FAQ toggle
+function toggleFaq(el){
+  el.classList.toggle('open');
+}
+
+// Scroll fade-in for cards
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.style.opacity='1';
+      e.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:0.1});
+
+document.querySelectorAll('.grade-card,.why-card,.tl-item,.testimonial,.faq-item').forEach(el=>{
+  el.style.cssText += 'opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>

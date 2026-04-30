@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How I Teach AI — Educator Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1208;
+  --paper:#faf7f2;
+  --warm:#f5efe4;
+  --card:#ffffff;
+  --accent:#c9440c;
+  --accent2:#e8a020;
+  --muted:#7a6a55;
+  --border:#e8e0d0;
+  --green:#1a6644;
+  --blue:#1a3d6e;
+  --purple:#5a2d82;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Instrument Sans',sans-serif;
+  font-size:15px;
+  line-height:1.65;
+  overflow-x:hidden;
+}
+
+/* ── TEXTURE OVERLAY ── */
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:1000;
+  opacity:.4;
+}
+
+/* ── NAV ── */
+nav{
+  background:var(--ink);
+  padding:14px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;top:0;z-index:99;
+}
+.logo-nav{
+  font-family:'Fraunces',serif;
+  font-size:17px;
+  font-weight:700;
+  color:var(--paper);
+  letter-spacing:-.3px;
+}
+.logo-nav span{color:var(--accent2)}
+.nav-links{display:flex;gap:20px}
+.nav-links a{
+  font-size:12px;font-weight:500;
+  color:rgba(250,247,242,.6);
+  text-decoration:none;
+  letter-spacing:.03em;
+  transition:color .2s;
+}
+.nav-links a:hover{color:var(--paper)}
+.wa-nav{
+  background:var(--accent2);
+  color:var(--ink) !important;
+  padding:7px 16px;
+  border-radius:100px;
+  font-weight:600 !important;
+  opacity:1 !important;
+}
+
+/* ── HERO STRIP ── */
+.hero{
+  background:var(--ink);
+  color:var(--paper);
+  padding:60px 24px 50px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:-100px;right:-100px;
+  width:400px;height:400px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(201,68,12,.2),transparent 70%);
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  bottom:-80px;left:-60px;
+  width:300px;height:300px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(232,160,32,.12),transparent 70%);
+}
+.hero-tag{
+  display:inline-block;
+  font-size:11px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid rgba(250,247,242,.2);
+  color:var(--accent2);
+  padding:5px 14px;border-radius:100px;
+  margin-bottom:20px;
+}
+.hero h1{
+  font-family:'Fraunces',serif;
+  font-size:clamp(38px,9vw,62px);
+  font-weight:700;
+  line-height:1.05;
+  letter-spacing:-1.5px;
+  margin-bottom:18px;
+  position:relative;z-index:1;
+}
+.hero h1 em{font-style:italic;color:var(--accent2)}
+.hero-sub{
+  font-size:15px;
+  color:rgba(250,247,242,.6);
+  max-width:340px;
+  line-height:1.7;
+  margin-bottom:32px;
+  position:relative;z-index:1;
+}
+.hero-meta{
+  display:flex;flex-wrap:wrap;gap:20px;
+  position:relative;z-index:1;
+}
+.hero-meta-item{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;color:rgba(250,247,242,.7);
+}
+.hero-meta-item strong{color:var(--paper)}
+.hm-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+
+/* ── SECTION ── */
+.section{padding:52px 24px}
+.section-alt{background:var(--warm)}
+.sec-eyebrow{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:12px;
+}
+.eyebrow-line{
+  width:28px;height:2px;background:var(--accent);flex-shrink:0;
+}
+.eyebrow-text{
+  font-size:11px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent);
+}
+.sec-h2{
+  font-family:'Fraunces',serif;
+  font-size:clamp(26px,6vw,36px);
+  font-weight:700;
+  letter-spacing:-.5px;
+  line-height:1.15;
+  margin-bottom:8px;
+}
+.sec-sub{
+  font-size:14px;color:var(--muted);
+  line-height:1.7;margin-bottom:32px;
+  max-width:400px;
+}
+
+/* ── WHAT I TEACH — MODULE CARDS ── */
+.module-stack{display:flex;flex-direction:column;gap:16px}
+.module{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  transition:box-shadow .2s,transform .2s;
+}
+.module:hover{box-shadow:0 8px 32px rgba(26,18,8,.08);transform:translateY(-2px)}
+.module-header{
+  padding:20px 22px 0;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+}
+.module-num{
+  font-family:'Fraunces',serif;
+  font-size:44px;font-weight:300;font-style:italic;
+  line-height:1;
+  opacity:.12;
+  color:var(--ink);
+}
+.module-band{
+  font-size:11px;font-weight:600;
+  padding:4px 12px;border-radius:100px;
+  letter-spacing:.04em;white-space:nowrap;
+}
+.band-p{background:#e8f7ef;color:var(--green)}
+.band-m{background:#fff3e0;color:#854f0b}
+.band-h{background:#ede7f6;color:var(--purple)}
+.module-body{padding:0 22px 22px}
+.module-title{
+  font-family:'Fraunces',serif;
+  font-size:20px;font-weight:700;
+  letter-spacing:-.3px;
+  margin-bottom:8px;
+  margin-top:6px;
+}
+.module-desc{
+  font-size:13px;color:var(--muted);
+  line-height:1.7;margin-bottom:16px;
+}
+.topics-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.topic{
+  font-size:11px;font-weight:500;
+  padding:4px 11px;border-radius:100px;
+  background:var(--warm);
+  border:1px solid var(--border);
+  color:var(--ink);
+}
+.module-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid var(--border);
+  padding:12px 22px;
+  background:var(--warm);
+  font-size:12px;color:var(--muted);
+}
+.mf-item{display:flex;align-items:center;gap:5px}
+.mf-icon{font-size:14px}
+
+/* ── HOW I TEACH — METHOD CARDS ── */
+.methods{display:flex;flex-direction:column;gap:0}
+.method-item{
+  display:flex;gap:18px;
+  padding:22px 0;
+  border-bottom:1px solid var(--border);
+  align-items:flex-start;
+}
+.method-item:last-child{border-bottom:none}
+.method-num{
+  font-family:'Fraunces',serif;
+  font-size:32px;font-weight:700;font-style:italic;
+  color:var(--accent);
+  line-height:1;
+  flex-shrink:0;
+  width:36px;
+  margin-top:2px;
+}
+.method-body h3{
+  font-family:'Fraunces',serif;
+  font-size:18px;font-weight:700;
+  letter-spacing:-.2px;
+  margin-bottom:6px;
+}
+.method-body p{
+  font-size:13px;color:var(--muted);
+  line-height:1.7;margin-bottom:10px;
+}
+.method-eg{
+  background:var(--warm);
+  border-left:3px solid var(--accent2);
+  padding:8px 14px;
+  border-radius:0 8px 8px 0;
+  font-size:12px;color:var(--ink);
+  font-style:italic;
+  line-height:1.6;
+}
+
+/* ── LESSON FLOW ── */
+.flow-wrap{position:relative}
+.flow-line{
+  position:absolute;
+  left:19px;top:24px;bottom:24px;
+  width:2px;
+  background:repeating-linear-gradient(to bottom,var(--accent) 0,var(--accent) 6px,transparent 6px,transparent 12px);
+  opacity:.3;
+}
+.flow-items{display:flex;flex-direction:column;gap:0}
+.flow-item{
+  display:flex;gap:18px;
+  padding:16px 0;
+  position:relative;
+}
+.flow-dot{
+  width:38px;height:38px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  font-size:16px;
+  position:relative;z-index:1;
+  border:2px solid var(--border);
+  background:var(--card);
+}
+.flow-content h4{
+  font-size:14px;font-weight:600;
+  margin-bottom:3px;
+}
+.flow-content p{font-size:13px;color:var(--muted);line-height:1.6}
+.flow-time{
+  font-size:11px;font-weight:600;
+  color:var(--accent);
+  margin-bottom:3px;
+  letter-spacing:.03em;
+}
+
+/* ── TOOLS GRID ── */
+.tools-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.tool-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px 16px;
+  transition:border-color .2s,transform .2s;
+}
+.tool-card:hover{border-color:var(--accent2);transform:translateY(-2px)}
+.tool-icon{
+  font-size:28px;margin-bottom:10px;display:block;
+}
+.tool-card h4{
+  font-size:14px;font-weight:600;
+  margin-bottom:4px;
+}
+.tool-card p{font-size:12px;color:var(--muted);line-height:1.6}
+.tool-tag{
+  display:inline-block;font-size:10px;font-weight:600;
+  padding:2px 8px;border-radius:100px;
+  margin-top:8px;letter-spacing:.03em;
+}
+.tt-free{background:#e8f7ef;color:var(--green)}
+.tt-unplugged{background:#fff3e0;color:#854f0b}
+.tt-code{background:#ede7f6;color:var(--purple)}
+
+/* ── PHILOSOPHY PULLQUOTE ── */
+.pullquote{
+  background:var(--ink);
+  color:var(--paper);
+  border-radius:24px;
+  padding:36px 28px;
+  margin:0 0 16px;
+  position:relative;
+  overflow:hidden;
+}
+.pullquote::before{
+  content:'\201C';
+  position:absolute;
+  top:-10px;left:14px;
+  font-family:'Fraunces',serif;
+  font-size:120px;font-weight:700;
+  color:var(--accent2);opacity:.2;
+  line-height:1;
+}
+.pullquote blockquote{
+  font-family:'Fraunces',serif;
+  font-size:clamp(18px,5vw,22px);
+  font-weight:300;font-style:italic;
+  line-height:1.5;
+  letter-spacing:-.2px;
+  position:relative;z-index:1;
+  margin-bottom:18px;
+}
+.pullquote blockquote em{
+  font-style:normal;color:var(--accent2);
+}
+.pq-author{
+  font-size:12px;
+  color:rgba(250,247,242,.5);
+  font-style:normal;
+  position:relative;z-index:1;
+}
+
+/* ── ASSESSMENT TABLE ── */
+.assess-table{
+  width:100%;border-collapse:collapse;
+  font-size:13px;
+}
+.assess-table th{
+  text-align:left;padding:10px 12px;
+  font-size:11px;font-weight:600;letter-spacing:.04em;
+  color:var(--muted);text-transform:uppercase;
+  border-bottom:2px solid var(--border);
+}
+.assess-table td{
+  padding:12px;
+  border-bottom:1px solid var(--border);
+  vertical-align:top;line-height:1.6;
+}
+.assess-table tr:last-child td{border-bottom:none}
+.assess-table tr:hover td{background:var(--warm)}
+.pts{
+  font-family:'Fraunces',serif;
+  font-size:18px;font-weight:700;
+  color:var(--accent);
+}
+
+/* ── CTA ── */
+.cta-wrap{
+  background:var(--ink);
+  color:var(--paper);
+  padding:52px 24px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.cta-wrap::before{
+  content:'';position:absolute;
+  top:-80px;left:50%;transform:translateX(-50%);
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(232,160,32,.15),transparent 70%);
+  pointer-events:none;
+}
+.cta-wrap h2{
+  font-family:'Fraunces',serif;
+  font-size:clamp(28px,7vw,40px);
+  font-weight:700;font-style:italic;
+  letter-spacing:-.5px;
+  line-height:1.15;
+  margin-bottom:14px;
+  position:relative;z-index:1;
+}
+.cta-wrap p{
+  font-size:14px;color:rgba(250,247,242,.6);
+  margin-bottom:28px;
+  line-height:1.7;
+  position:relative;z-index:1;
+}
+.wa-big{
+  display:inline-flex;align-items:center;
+  justify-content:center;gap:10px;
+  background:#25D366;color:#fff;
+  font-family:'Instrument Sans',sans-serif;
+  font-weight:700;font-size:15px;
+  padding:16px 32px;border-radius:16px;
+  text-decoration:none;width:100%;max-width:320px;
+  transition:transform .15s,box-shadow .15s;
+  box-shadow:0 4px 24px rgba(37,211,102,.3);
+  position:relative;z-index:1;
+}
+.wa-big:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(37,211,102,.45)}
+.wa-big svg{width:20px;height:20px;fill:#fff;flex-shrink:0}
+
+footer{
+  background:var(--ink);
+  border-top:1px solid rgba(255,255,255,.05);
+  padding:20px 24px;
+  text-align:center;
+}
+footer p{font-size:12px;color:rgba(250,247,242,.3)}
+
+/* ── SCROLL REVEAL ── */
+.reveal{
+  opacity:0;transform:translateY(28px);
+  transition:opacity .6s ease,transform .6s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── STICKY PROGRESS ── */
+#progress-bar{
+  position:fixed;top:0;left:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  z-index:200;width:0%;transition:width .1s;
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav>
+  <span class="logo-nav">AI <span>Educator</span></span>
+  <div class="nav-links">
+    <a href="#what">What</a>
+    <a href="#how">How</a>
+    <a href="#tools">Tools</a>
+    <a href="https://wa.me/919996373130?text=Hi!%20I%20want%20to%20know%20more%20about%20your%20AI%20teaching" target="_blank" class="wa-nav">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Educator Profile · K–12 AI</div>
+  <h1>I teach<br><em>AI</em> the way<br>kids actually<br>learn.</h1>
+  <p class="hero-sub">Not slides. Not lectures. Students touch, break, rebuild, and question AI — in every single class.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><div class="hm-dot"></div> <strong>Grades K–12</strong></div>
+    <div class="hero-meta-item"><div class="hm-dot"></div> <strong>AI4K12 + UNESCO</strong> aligned</div>
+    <div class="hero-meta-item"><div class="hm-dot"></div> <strong>No coding</strong> experience needed</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ WHAT I TEACH ════════════════════════════════ -->
+<div class="section" id="what">
+  <div class="sec-eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">What I Teach</span></div>
+  <h2 class="sec-h2">Six core subjects.<br>Every grade level.</h2>
+  <p class="sec-sub">Structured around the AI4K12 Five Big Ideas — but taught in a way that sticks, not just passes a test.</p>
+
+  <div class="module-stack">
+
+    <!-- MODULE 1 -->
+    <div class="module reveal">
+      <div class="module-header">
+        <span class="module-num">01</span>
+        <span class="module-band band-p">Grades K–5</span>
+      </div>
+      <div class="module-body">
+        <div class="module-title">What is Artificial Intelligence?</div>
+        <div class="module-desc">Students start by asking: what makes something "intelligent"? We explore AI in daily life — voice assistants, autocorrect, face unlock — and discover that AI is pattern recognition, not magic.</div>
+        <div class="topics-row">
+          <span class="topic">Defining AI</span>
+          <span class="topic">AI vs. humans</span>
+          <span class="topic">Everyday AI examples</span>
+          <span class="topic">Rule-based thinking</span>
+          <span class="topic">Computational thinking</span>
+        </div>
+      </div>
+      <div class="module-footer">
+        <div class="mf-item"><span class="mf-icon">📅</span> 3 lessons · 1 week</div>
+        <div class="mf-item"><span class="mf-icon">🔧</span> Unplugged + ScratchJr</div>
+        <div class="mf-item"><span class="mf-icon">📝</span> Show-and-tell</div>
+      </div>
+    </div>
+
+    <!-- MODULE 2 -->
+    <div class="module reveal">
+      <div class="module-header">
+        <span class="module-num">02</span>
+        <span class="module-band band-p">Grades K–5</span>
+      </div>
+      <div class="module-body">
+        <div class="module-title">How AI Sees & Hears</div>
+        <div class="module-desc">AI uses sensors to perceive the world. Students run a "Perception Lab" — drawing shapes to train an image classifier — and observe how more examples make AI smarter.</div>
+        <div class="topics-row">
+          <span class="topic">Image recognition</span>
+          <span class="topic">Sensors & cameras</span>
+          <span class="topic">Pattern matching</span>
+          <span class="topic">Training data basics</span>
+        </div>
+      </div>
+      <div class="module-footer">
+        <div class="mf-item"><span class="mf-icon">📅</span> 3 lessons · 1 week</div>
+        <div class="mf-item"><span class="mf-icon">🔧</span> Teachable Machine</div>
+        <div class="mf-item"><span class="mf-icon">📝</span> Poster project</div>
+      </div>
+    </div>
+
+    <!-- MODULE 3 -->
+    <div class="module reveal">
+      <div class="module-header">
+        <span class="module-num">03</span>
+        <span class="module-band band-m">Grades 6–8</span>
+      </div>
+      <div class="module-body">
+        <div class="module-title">Algorithms & Decision-Making</div>
+        <div class="module-desc">How does a computer decide? Students build decision trees to sort animals, then use block-based ML tools to classify real data — discovering the difference between rules humans write and patterns machines learn.</div>
+        <div class="topics-row">
+          <span class="topic">Decision trees</span>
+          <span class="topic">Rules vs. learning</span>
+          <span class="topic">Classification</span>
+          <span class="topic">Accuracy & errors</span>
+          <span class="topic">Spam vs. not spam</span>
+        </div>
+      </div>
+      <div class="module-footer">
+        <div class="mf-item"><span class="mf-icon">📅</span> 5 lessons · 2 weeks</div>
+        <div class="mf-item"><span class="mf-icon">🔧</span> Scratch ML + Teachable Machine</div>
+        <div class="mf-item"><span class="mf-icon">📝</span> Classifier project</div>
+      </div>
+    </div>
+
+    <!-- MODULE 4 -->
+    <div class="module reveal">
+      <div class="module-header">
+        <span class="module-num">04</span>
+        <span class="module-band band-m">Grades 6–8</span>
+      </div>
+      <div class="module-body">
+        <div class="module-title">Build a Chatbot</div>
+        <div class="module-desc">Students design conversational AI — scripting intents, testing edge cases, and refining outputs. They discover how voice assistants understand language and why they sometimes fail spectacularly.</div>
+        <div class="topics-row">
+          <span class="topic">Natural language</span>
+          <span class="topic">Intents & responses</span>
+          <span class="topic">Scratch chatbot</span>
+          <span class="topic">Human-AI interface</span>
+          <span class="topic">User testing</span>
+        </div>
+      </div>
+      <div class="module-footer">
+        <div class="mf-item"><span class="mf-icon">📅</span> 3 lessons · 1.5 weeks</div>
+        <div class="mf-item"><span class="mf-icon">🔧</span> Scratch · MIT App Inventor</div>
+        <div class="mf-item"><span class="mf-icon">📝</span> Live chatbot demo</div>
+      </div>
+    </div>
+
+    <!-- MODULE 5 -->
+    <div class="module reveal">
+      <div class="module-header">
+        <span class="module-num">05</span>
+        <span class="module-band band-h">Grades 9–12</span>
+      </div>
+      <div class="module-body">
+        <div class="module-title">Machine Learning & Neural Networks</div>
+        <div class="module-desc">Students train their first neural network. They experiment with adjusting training data size, labels, and epochs — then write a lab report analysing exactly how their changes affected model accuracy.</div>
+        <div class="topics-row">
+          <span class="topic">Supervised learning</span>
+          <span class="topic">Neural net intro</span>
+          <span class="topic">Training vs. inference</span>
+          <span class="topic">Python basics</span>
+          <span class="topic">TensorFlow Playground</span>
+          <span class="topic">Lab reports</span>
+        </div>
+      </div>
+      <div class="module-footer">
+        <div class="mf-item"><span class="mf-icon">📅</span> 6 lessons · 3 weeks</div>
+        <div class="mf-item"><span class="mf-icon">🔧</span> Python · TF Playground</div>
+        <div class="mf-item"><span class="mf-icon">📝</span> Lab report + model</div>
+      </div>
+    </div>
+
+    <!-- MODULE 6 -->
+    <div class="module reveal">
+      <div class="module-header">
+        <span class="module-num">06</span>
+        <span class="module-band band-h">Grades 9–12</span>
+      </div>
+      <div class="module-body">
+        <div class="module-title">AI Ethics, Bias & Society</div>
+        <div class="module-desc">Should AI grade your exams? Students debate, analyse real-world bias cases (face recognition errors, hiring algorithms), and write an ethical analysis of one AI application — backed by evidence, not just opinion.</div>
+        <div class="topics-row">
+          <span class="topic">Bias in data</span>
+          <span class="topic">Privacy & GDPR</span>
+          <span class="topic">AI & jobs</span>
+          <span class="topic">Case studies</span>
+          <span class="topic">Academic integrity</span>
+          <span class="topic">Debate</span>
+        </div>
+      </div>
+      <div class="module-footer">
+        <div class="mf-item"><span class="mf-icon">📅</span> 4 lessons · 2 weeks</div>
+        <div class="mf-item"><span class="mf-icon">🔧</span> Articles · Role-play</div>
+        <div class="mf-item"><span class="mf-icon">📝</span> Ethics essay</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════ HOW I TEACH ════════════════════════════════ -->
+<div class="section section-alt" id="how">
+  <div class="sec-eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">How I Teach</span></div>
+  <h2 class="sec-h2">My teaching<br>philosophy.</h2>
+  <p class="sec-sub">Every method I use exists for one reason: to make AI genuinely understood, not just memorised.</p>
+
+  <div class="pullquote reveal">
+    <blockquote>
+      "A student who builds a broken AI learns more than a student who watches a perfect one. I teach them to <em>make mistakes on purpose</em>."
+    </blockquote>
+    <p class="pq-author">— Teaching philosophy · AI Explorer Program</p>
+  </div>
+
+  <div class="methods reveal">
+    <div class="method-item">
+      <div class="method-num">1</div>
+      <div class="method-body">
+        <h3>Unplugged First, Screens Second</h3>
+        <p>Every concept is introduced without a device. Students use cards, role-play, and physical sorting before ever opening a browser. This builds intuition that technology alone cannot give.</p>
+        <div class="method-eg">Example: "Be the AI" — one student plays an algorithm that must guess a sorting rule from examples given by classmates. They feel the limits of their own model.</div>
+      </div>
+    </div>
+
+    <div class="method-item">
+      <div class="method-num">2</div>
+      <div class="method-body">
+        <h3>Train It, Break It, Fix It</h3>
+        <p>Students don't just run demos — they train their own models with bad data on purpose, watch them fail, and figure out why. Failure is the curriculum.</p>
+        <div class="method-eg">Example: Train Teachable Machine with only 3 images → 80% inaccurate. Then with 30 → 95% accurate. Students see the difference, not just hear about it.</div>
+      </div>
+    </div>
+
+    <div class="method-item">
+      <div class="method-num">3</div>
+      <div class="method-body">
+        <h3>Guided Inquiry, Not Lectures</h3>
+        <p>I ask more questions than I answer. "What do you think would happen if…?" is my most-used sentence. Students form hypotheses, test them, and present their findings to the class.</p>
+        <div class="method-eg">Example: Instead of explaining bias, I ask: "Train this classifier only on one gender's faces. What happens?" Students discover bias through data, not definition.</div>
+      </div>
+    </div>
+
+    <div class="method-item">
+      <div class="method-num">4</div>
+      <div class="method-body">
+        <h3>Ethics Is Not Optional</h3>
+        <p>Every module — even the K–5 ones — ends with a question about fairness, privacy, or trust. AI literacy without ethics is just programming. I teach both simultaneously.</p>
+        <div class="method-eg">Example: K–5 students discuss: "How would you feel if an AI could know your secret?" High schoolers write a formal ethical analysis of face recognition in schools.</div>
+      </div>
+    </div>
+
+    <div class="method-item">
+      <div class="method-num">5</div>
+      <div class="method-body">
+        <h3>Every Student Builds Something Real</h3>
+        <p>No module ends without a student artifact — a classifier, chatbot, poster, or essay. They take it home. They show their parents. That pride is irreplaceable.</p>
+        <div class="method-eg">Example: Grade 6 demo day — each pair presents their "spam sorter" AI to the class and explains one limitation they discovered during testing.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ A LESSON IN 45 MIN ════════════════════════════════ -->
+<div class="section" id="lesson">
+  <div class="sec-eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">Inside My Classroom</span></div>
+  <h2 class="sec-h2">What a 45-minute<br>lesson looks like.</h2>
+  <p class="sec-sub">Every class follows the same rhythm — unpredictable content, predictable structure.</p>
+
+  <div class="flow-wrap reveal">
+    <div class="flow-line"></div>
+    <div class="flow-items">
+      <div class="flow-item">
+        <div class="flow-dot">🎯</div>
+        <div class="flow-content">
+          <div class="flow-time">0–5 min</div>
+          <h4>The Hook</h4>
+          <p>One surprising fact, demo, or question. "Did you know the Netflix algorithm decides what you watch next — but it's never actually seen your face?" Students are curious before they know they're learning.</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-dot">🤸</div>
+        <div class="flow-content">
+          <div class="flow-time">5–15 min</div>
+          <h4>Unplugged Activity</h4>
+          <p>A hands-on, no-device exercise that builds the core intuition. Card sorting, role-play, or a group game. Everyone participates — there's no backseat in my class.</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-dot">💻</div>
+        <div class="flow-content">
+          <div class="flow-time">15–32 min</div>
+          <h4>Build & Experiment</h4>
+          <p>Students apply the concept using a real tool — Teachable Machine, Scratch, or Python. They have a specific task: build X. But they're encouraged to go off-script and see what breaks.</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-dot">💬</div>
+        <div class="flow-content">
+          <div class="flow-time">32–42 min</div>
+          <h4>Share & Challenge</h4>
+          <p>Two or three pairs share what they made. The class asks one question each. I ask: "What would happen if you changed X?" Students become critics of each other's models.</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-dot">🌱</div>
+        <div class="flow-content">
+          <div class="flow-time">42–45 min</div>
+          <h4>The Ethics Moment</h4>
+          <p>One question. No right answer. "If your classifier makes a mistake and someone is wrongly identified — who is responsible?" They leave thinking. That's the point.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ TOOLS ════════════════════════════════ -->
+<div class="section section-alt" id="tools">
+  <div class="sec-eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">My Toolkit</span></div>
+  <h2 class="sec-h2">Tools I use.<br>All free or unplugged.</h2>
+  <p class="sec-sub">No expensive software. No licences. Everything works on a shared Chromebook or a piece of paper.</p>
+
+  <div class="tools-grid reveal">
+    <div class="tool-card">
+      <span class="tool-icon">🧠</span>
+      <h4>Teachable Machine</h4>
+      <p>Google's browser-based classifier. Students train image, sound & pose models in minutes — no code needed.</p>
+      <span class="tool-tag tt-free">Free · No account</span>
+    </div>
+    <div class="tool-card">
+      <span class="tool-icon">🐱</span>
+      <h4>Scratch + ML Extension</h4>
+      <p>Block-based coding with ML superpowers. Perfect for Grades 5–8 to build classifiers and chatbots.</p>
+      <span class="tool-tag tt-free">Free · Browser</span>
+    </div>
+    <div class="tool-card">
+      <span class="tool-icon">🃏</span>
+      <h4>AI Unplugged Cards</h4>
+      <p>Printed card sets for sorting, decision-tree games, and "Be the AI" role-play. Zero screens needed.</p>
+      <span class="tool-tag tt-unplugged">Printable · Offline</span>
+    </div>
+    <div class="tool-card">
+      <span class="tool-icon">📱</span>
+      <h4>Smartphone Demos</h4>
+      <p>Students already have them. Voice assistants, camera AI, autocorrect — live demos in every pocket.</p>
+      <span class="tool-tag tt-free">Free · Real world</span>
+    </div>
+    <div class="tool-card">
+      <span class="tool-icon">🐍</span>
+      <h4>Python + TF Playground</h4>
+      <p>For Grade 9–12. TensorFlow Playground visualises how neural networks learn — no setup needed in browser.</p>
+      <span class="tool-tag tt-code">Code · High school</span>
+    </div>
+    <div class="tool-card">
+      <span class="tool-icon">🤖</span>
+      <h4>MIT App Inventor</h4>
+      <p>Drag-and-drop app building with built-in AI features. Students build real Android apps with voice or image AI.</p>
+      <span class="tool-tag tt-free">Free · Grades 7+</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ ASSESSMENT ════════════════════════════════ -->
+<div class="section">
+  <div class="sec-eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">How I Assess</span></div>
+  <h2 class="sec-h2">I grade what<br>matters.</h2>
+  <p class="sec-sub">No trick questions. No rote memorisation. Students are assessed on understanding, creativity, and ethical thinking.</p>
+
+  <div class="reveal" style="overflow-x:auto;border:1px solid var(--border);border-radius:16px;background:var(--card)">
+    <table class="assess-table">
+      <thead>
+        <tr>
+          <th>Criterion</th>
+          <th>What I look for</th>
+          <th>Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>AI Understanding</strong></td>
+          <td>Can the student explain in their own words how their AI model works? Not the textbook definition — their version.</td>
+          <td><span class="pts">4</span></td>
+        </tr>
+        <tr>
+          <td><strong>Technical Skill</strong></td>
+          <td>Did the model work? Does it achieve >80% accuracy on test examples? Did they iterate when it didn't?</td>
+          <td><span class="pts">4</span></td>
+        </tr>
+        <tr>
+          <td><strong>Creativity</strong></td>
+          <td>Did the student make an original choice — unusual training data, unexpected application, novel interface?</td>
+          <td><span class="pts">3</span></td>
+        </tr>
+        <tr>
+          <td><strong>Ethics Reflection</strong></td>
+          <td>Can the student name at least one limitation or ethical concern about their own model — and suggest how to fix it?</td>
+          <td><span class="pts">4</span></td>
+        </tr>
+        <tr>
+          <td><strong>Presentation</strong></td>
+          <td>Can the student explain their project to a classmate who wasn't there? Clear, structured, confident.</td>
+          <td><span class="pts">3</span></td>
+        </tr>
+        <tr style="background:var(--warm)">
+          <td><strong>Total</strong></td>
+          <td style="color:var(--muted)">Rubric used for all summative projects across K–12</td>
+          <td><span class="pts" style="font-size:24px">18</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ CTA ════════════════════════════════ -->
+<div class="cta-wrap">
+  <h2>Want this in<br>your classroom?</h2>
+  <p>Whether you're a parent, school principal, or fellow teacher — let's talk about how to make this happen for your students.</p>
+  <a class="wa-big" href="https://wa.me/919996373130?text=Hi!%20I%20saw%20your%20teaching%20profile%20and%20want%20to%20learn%20more%20about%20the%20AI%20program" target="_blank">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.504 3.935 1.385 5.619L0 24l6.545-1.361A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.805 9.805 0 01-5.032-1.386l-.36-.214-3.733.979.996-3.648-.235-.374A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+    Message Me on WhatsApp
+  </a>
+</div>
+
+<footer>
+  <p>AI Explorer · K–12 AI Education Program · Haryana, India</p>
+</footer>
+
+<script>
+// Reading progress bar
+window.addEventListener('scroll',()=>{
+  const total=document.body.scrollHeight - window.innerHeight;
+  const pct=(window.scrollY/total)*100;
+  document.getElementById('progress-bar').style.width=pct+'%';
+});
+
+// Scroll reveal
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+    }
+  });
+},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google My Business Setup — AI Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cabin:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f9f6f0;
+  --ink:#1c1a14;
+  --surface:#ffffff;
+  --warm:#f0ebe0;
+  --accent:#1a7a3c;
+  --accent2:#f5a623;
+  --google:#4285F4;
+  --muted:#6b6352;
+  --border:#e0d9cc;
+  --red:#ea4335;
+  --yellow:#fbbc04;
+  --green:#34a853;
+  --blue:#4285f4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Cabin',sans-serif;
+  font-size:15px;line-height:1.65;
+  overflow-x:hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#prog{position:fixed;top:0;left:0;height:3px;background:var(--google);z-index:200;width:0;transition:width .1s}
+
+/* ── NAV ── */
+nav{
+  background:var(--ink);padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:99;
+}
+.logo{
+  font-family:'Bebas Neue',sans-serif;font-size:20px;
+  color:#fff;letter-spacing:1px;
+}
+.logo span{color:var(--accent2)}
+.nav-badge{
+  font-size:11px;font-weight:600;
+  background:var(--google);color:#fff;
+  padding:5px 12px;border-radius:100px;
+}
+
+/* ── HERO ── */
+.hero{
+  background:var(--ink);color:#fff;
+  padding:56px 20px 48px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;
+  top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(66,133,244,.18),transparent 70%);
+}
+.hero::after{
+  content:'';position:absolute;
+  bottom:-40px;left:-40px;width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(52,168,83,.12),transparent 70%);
+}
+.google-g{
+  width:52px;height:52px;border-radius:50%;
+  background:#fff;display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;font-family:'Bebas Neue',sans-serif;
+  font-size:28px;color:var(--google);box-shadow:0 4px 20px rgba(0,0,0,.2);
+  position:relative;z-index:1;
+}
+.hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(36px,9vw,58px);
+  line-height:1;letter-spacing:1px;
+  margin-bottom:14px;
+  position:relative;z-index:1;
+}
+.hero h1 em{font-style:normal;color:var(--accent2)}
+.hero-sub{
+  font-size:14px;color:rgba(255,255,255,.6);
+  max-width:340px;line-height:1.7;
+  margin-bottom:28px;position:relative;z-index:1;
+}
+.hero-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;overflow:hidden;
+  position:relative;z-index:1;
+}
+.hs{
+  background:rgba(255,255,255,.05);
+  padding:16px 12px;text-align:center;
+}
+.hs .v{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--accent2);line-height:1;margin-bottom:2px}
+.hs .l{font-size:11px;color:rgba(255,255,255,.5);line-height:1.3}
+
+/* ── SECTIONS ── */
+.section{padding:44px 20px}
+.section-alt{background:var(--warm)}
+.eyebrow{
+  display:flex;align-items:center;gap:10px;margin-bottom:10px;
+}
+.ey-line{width:24px;height:3px;background:var(--accent);flex-shrink:0;border-radius:2px}
+.ey-txt{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+h2{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(28px,7vw,40px);
+  line-height:1.05;letter-spacing:.5px;
+  margin-bottom:8px;
+}
+.sec-sub{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:28px}
+
+/* ── STEP CARDS ── */
+.steps-list{display:flex;flex-direction:column;gap:14px}
+.step-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:18px;overflow:hidden;
+  transition:box-shadow .2s,transform .2s;
+}
+.step-card:hover{box-shadow:0 8px 28px rgba(28,26,20,.08);transform:translateY(-2px)}
+.step-card-header{
+  padding:18px 20px;
+  display:flex;align-items:flex-start;gap:16px;
+  cursor:pointer;
+}
+.step-n{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:36px;line-height:1;
+  color:var(--google);opacity:.25;
+  flex-shrink:0;
+}
+.step-title-wrap h3{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px;letter-spacing:.3px;
+  margin-bottom:4px;
+}
+.step-title-wrap p{font-size:13px;color:var(--muted)}
+.step-toggle{
+  margin-left:auto;width:28px;height:28px;
+  border-radius:50%;background:var(--warm);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--muted);flex-shrink:0;
+  transition:transform .25s,background .2s;
+}
+.step-card.open .step-toggle{transform:rotate(45deg);background:var(--accent);color:#fff}
+.step-body{
+  display:none;padding:0 20px 20px;border-top:1px solid var(--border);
+}
+.step-card.open .step-body{display:block;padding-top:16px}
+
+/* ── INSTRUCTIONS ── */
+.instructions{list-style:none;display:flex;flex-direction:column;gap:10px}
+.instructions li{
+  display:flex;gap:12px;align-items:flex-start;
+  font-size:13px;line-height:1.65;
+}
+.inst-dot{
+  width:22px;height:22px;border-radius:50%;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;margin-top:1px;
+}
+.d-blue{background:var(--blue)}
+.d-green{background:var(--green)}
+.d-yellow{background:var(--yellow);color:var(--ink)}
+.d-red{background:var(--red)}
+
+.tip-box{
+  background:rgba(66,133,244,.06);
+  border:1px solid rgba(66,133,244,.15);
+  border-left:3px solid var(--google);
+  border-radius:0 10px 10px 0;
+  padding:12px 14px;margin-top:12px;
+  font-size:12px;line-height:1.65;color:var(--ink);
+}
+.tip-box strong{color:var(--google)}
+
+.warn-box{
+  background:rgba(251,188,4,.08);
+  border:1px solid rgba(251,188,4,.2);
+  border-left:3px solid var(--yellow);
+  border-radius:0 10px 10px 0;
+  padding:12px 14px;margin-top:12px;
+  font-size:12px;line-height:1.65;
+}
+.warn-box strong{color:#8a6400}
+
+.copy-block{
+  background:var(--ink);color:#e0ffd0;
+  border-radius:12px;padding:14px 16px;
+  font-size:12px;font-family:monospace;
+  line-height:1.8;margin-top:12px;
+  position:relative;
+}
+.copy-btn{
+  position:absolute;top:10px;right:10px;
+  background:rgba(255,255,255,.1);border:none;
+  color:rgba(255,255,255,.6);font-size:11px;font-weight:600;
+  padding:4px 10px;border-radius:6px;cursor:pointer;
+  font-family:'Cabin',sans-serif;transition:background .2s;
+}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:var(--green);color:#fff}
+
+/* ── KEYWORD TABLE ── */
+.keyword-table{
+  width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;
+}
+.keyword-table th{
+  text-align:left;padding:8px 10px;font-size:11px;font-weight:700;
+  letter-spacing:.05em;color:var(--muted);text-transform:uppercase;
+  border-bottom:2px solid var(--border);
+}
+.keyword-table td{
+  padding:10px;border-bottom:1px solid var(--border);line-height:1.5;vertical-align:top;
+}
+.keyword-table tr:last-child td{border-bottom:none}
+.kw-tag{
+  display:inline-block;font-size:10px;font-weight:600;
+  padding:2px 8px;border-radius:100px;
+  background:rgba(66,133,244,.1);color:var(--google);margin:1px;
+}
+.volume{font-size:12px;font-weight:600;color:var(--green)}
+
+/* ── POST TEMPLATES ── */
+.post-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:18px;margin-bottom:12px;
+}
+.post-type{
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--google);margin-bottom:8px;
+}
+.post-content{
+  font-size:13px;line-height:1.7;color:var(--ink);
+  white-space:pre-line;
+}
+.post-footer{
+  margin-top:12px;padding-top:10px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;color:var(--muted);
+}
+
+/* ── CHECKLIST ── */
+.checklist{display:flex;flex-direction:column;gap:0}
+.check-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 0;border-bottom:1px solid var(--border);
+  cursor:pointer;
+}
+.check-item:last-child{border-bottom:none}
+.checkbox{
+  width:22px;height:22px;border-radius:6px;
+  border:2px solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;margin-top:1px;
+}
+.check-item.done .checkbox{background:var(--green);border-color:var(--green)}
+.check-item.done .checkbox::after{content:'✓';color:#fff;font-size:12px;font-weight:700}
+.check-item.done .check-text{text-decoration:line-through;color:var(--muted)}
+.check-text{font-size:13px;line-height:1.5}
+.check-meta{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ── RESULT PREVIEW ── */
+.gmb-preview{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:20px;
+  box-shadow:0 4px 20px rgba(28,26,20,.06);
+}
+.gmb-preview h3{
+  font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.3px;
+  color:var(--blue);margin-bottom:2px;
+}
+.gmb-preview .rating{
+  display:flex;align-items:center;gap:6px;font-size:13px;margin-bottom:8px;
+}
+.stars{color:var(--yellow);font-size:15px;letter-spacing:-1px}
+.gmb-preview .cat{font-size:12px;color:var(--muted);margin-bottom:12px}
+.gmb-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.gaction{
+  font-size:12px;font-weight:600;color:var(--blue);
+  border:1px solid rgba(66,133,244,.3);border-radius:100px;
+  padding:6px 14px;
+}
+.gmb-info{font-size:13px;line-height:1.9;color:var(--ink)}
+.gmb-info span{color:var(--muted);font-size:12px}
+
+/* ── CTA FOOTER ── */
+.cta-footer{
+  background:var(--ink);color:#fff;
+  padding:44px 20px;text-align:center;
+}
+.cta-footer h2{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:32px;letter-spacing:.5px;margin-bottom:10px;
+}
+.cta-footer p{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:24px}
+.btn-cta{
+  display:inline-block;background:var(--google);color:#fff;
+  font-family:'Cabin',sans-serif;font-weight:700;font-size:14px;
+  padding:14px 28px;border-radius:12px;text-decoration:none;
+  transition:opacity .2s;
+}
+.btn-cta:hover{opacity:.85}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+.reveal.visible{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<nav>
+  <span class="logo">AI <span>Explorer</span></span>
+  <span class="nav-badge">📍 Google My Business Guide</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="google-g">G</div>
+  <h1>Get Found on<br><em>Google.</em> For Free.</h1>
+  <p class="hero-sub">When a parent in your city searches "AI classes for kids near me" — you need to be the first result. Here's exactly how.</p>
+  <div class="hero-stats">
+    <div class="hs"><div class="v">30 min</div><div class="l">To set up fully</div></div>
+    <div class="hs"><div class="v">₹0</div><div class="l">Cost to list</div></div>
+    <div class="hs"><div class="v">5×</div><div class="l">More calls than no listing</div></div>
+  </div>
+</div>
+
+<!-- STEP-BY-STEP SETUP -->
+<div class="section">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">Step-by-Step Setup</span></div>
+  <h2>Complete GMB Setup<br>in 30 Minutes.</h2>
+  <p class="sec-sub">Follow every step. Don't skip verification — that's what makes you show up in search.</p>
+
+  <div class="steps-list" id="steps-list">
+
+    <div class="step-card" onclick="toggleStep(this)">
+      <div class="step-card-header">
+        <div class="step-n">01</div>
+        <div class="step-title-wrap">
+          <h3>Create Your Google Business Profile</h3>
+          <p>Go to business.google.com and create your listing</p>
+        </div>
+        <div class="step-toggle">+</div>
+      </div>
+      <div class="step-body">
+        <ul class="instructions">
+          <li><div class="inst-dot d-blue">1</div><span>Open <strong>business.google.com</strong> on your phone or laptop. Sign in with your Google account (create one if needed — use a business email like aiexplorer@gmail.com).</span></li>
+          <li><div class="inst-dot d-blue">2</div><span>Click <strong>"Manage now"</strong> → <strong>"Add your business"</strong>.</span></li>
+          <li><div class="inst-dot d-blue">3</div><span>Business name: Type exactly <strong>"AI Explorer — K-12 AI Education, Hisar, Haryana"</strong>. Example: "AI Explorer — K-12 AI Education, Hisar".</span></li>
+          <li><div class="inst-dot d-blue">4</div><span>Category: Search for <strong>"Tutoring Service"</strong> or <strong>"Educational Institution"</strong>. Pick whichever applies.</span></li>
+          <li><div class="inst-dot d-blue">5</div><span>Select <strong>"Yes"</strong> when asked if you have a physical location. Even if you teach online, add your home city — this is what makes you show up in local search.</span></li>
+        </ul>
+        <div class="tip-box"><strong>Pro tip:</strong> Use your real address for verification (Google will mail a postcard there). You can hide the exact address from public view later — only the city will show.</div>
+      </div>
+    </div>
+
+    <div class="step-card" onclick="toggleStep(this)">
+      <div class="step-card-header">
+        <div class="step-n">02</div>
+        <div class="step-title-wrap">
+          <h3>Fill Your Business Info (100% Complete)</h3>
+          <p>Incomplete profiles rank lower — fill everything</p>
+        </div>
+        <div class="step-toggle">+</div>
+      </div>
+      <div class="step-body">
+        <ul class="instructions">
+          <li><div class="inst-dot d-green">1</div><span><strong>Phone number:</strong> Your WhatsApp number. Parents can call or WhatsApp directly from Google.</span></li>
+          <li><div class="inst-dot d-green">2</div><span><strong>Website:</strong> Add the link to your enrollment form HTML file (host it free on GitHub Pages or Netlify first).</span></li>
+          <li><div class="inst-dot d-green">3</div><span><strong>Business hours:</strong> Set realistic hours — e.g. Mon–Sat 9am–7pm. Don't leave blank.</span></li>
+          <li><div class="inst-dot d-green">4</div><span><strong>Description (750 characters max):</strong> Copy and paste this optimised description ↓</span></li>
+        </ul>
+        <div class="copy-block" id="gmb-desc">AI Explorer is a K–12 AI education program teaching students from Grade 1 to Grade 12 how artificial intelligence works — through hands-on projects, not just theory.
+
+Students build real AI models: image classifiers, chatbots, and ethical AI projects. No prior coding experience needed.
+
+Curriculum aligned to UNESCO and AI4K12 frameworks. Trained, certified teachers. Works on any device — even smartphones.
+
+Serving students in Hisar, Haryana and nearby areas. Online and in-person batches available.
+
+Contact us on WhatsApp to enroll or book a free demo class.
+        <button class="copy-btn" onclick="copyText('gmb-desc',this)">Copy</button></div>
+        <div class="tip-box"><strong>Pro tip:</strong> Include your city name naturally in the description — Google reads it for local search ranking.</div>
+      </div>
+    </div>
+
+    <div class="step-card" onclick="toggleStep(this)">
+      <div class="step-card-header">
+        <div class="step-n">03</div>
+        <div class="step-title-wrap">
+          <h3>Add Photos — Minimum 10</h3>
+          <p>Listings with photos get 42% more requests</p>
+        </div>
+        <div class="step-toggle">+</div>
+      </div>
+      <div class="step-body">
+        <ul class="instructions">
+          <li><div class="inst-dot d-yellow">1</div><span><strong>Logo photo:</strong> Your AI Explorer logo or program name on a clean background.</span></li>
+          <li><div class="inst-dot d-yellow">2</div><span><strong>Cover photo:</strong> A student working on a laptop or tablet — bright, clear, happy. This is the first image parents see.</span></li>
+          <li><div class="inst-dot d-yellow">3</div><span><strong>Classroom photos (3–4):</strong> Students in class (even if it's on a phone screen showing a Teachable Machine demo). Authentic beats stock.</span></li>
+          <li><div class="inst-dot d-yellow">4</div><span><strong>Project photos (2–3):</strong> Screenshots of AI models students built — the chatbot, the classifier, the ethics poster.</span></li>
+          <li><div class="inst-dot d-yellow">5</div><span><strong>Certificate photo:</strong> A completion certificate being handed to a student. Parents love this.</span></li>
+          <li><div class="inst-dot d-yellow">6</div><span><strong>Teacher photo:</strong> You in front of a whiteboard or with a student. Builds personal trust.</span></li>
+        </ul>
+        <div class="warn-box"><strong>⚠️ Never use stock photos.</strong> Google can detect inauthenticity and parents will notice. Real photos — even slightly blurry phone shots — convert 3× better than stock images.</div>
+      </div>
+    </div>
+
+    <div class="step-card" onclick="toggleStep(this)">
+      <div class="step-card-header">
+        <div class="step-n">04</div>
+        <div class="step-title-wrap">
+          <h3>Add Your Services & Products</h3>
+          <p>Each service is an extra search ranking signal</p>
+        </div>
+        <div class="step-toggle">+</div>
+      </div>
+      <div class="step-body">
+        <ul class="instructions">
+          <li><div class="inst-dot d-blue">1</div><span>Go to <strong>Products / Services</strong> tab in your GMB dashboard.</span></li>
+          <li><div class="inst-dot d-blue">2</div><span>Add these as separate services — each one targets different search terms:</span></li>
+        </ul>
+        <table class="keyword-table" style="margin-top:12px">
+          <thead><tr><th>Service Name</th><th>Description (short)</th></tr></thead>
+          <tbody>
+            <tr><td><strong>AI Classes for Kids (K–5)</strong></td><td>Fun, unplugged AI activities for primary school students. No device needed.</td></tr>
+            <tr><td><strong>AI Coding for Middle School</strong></td><td>Build chatbots and classifiers using Scratch and block-based ML tools.</td></tr>
+            <tr><td><strong>AI & Machine Learning (9–12)</strong></td><td>Python + neural networks for high school students. Portfolio projects included.</td></tr>
+            <tr><td><strong>AI Ethics Workshop</strong></td><td>Discussion-based session on bias, privacy and responsible AI. All ages.</td></tr>
+            <tr><td><strong>Free Demo Class</strong></td><td>One free trial session. No commitment. Online or in-person.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="step-card" onclick="toggleStep(this)">
+      <div class="step-card-header">
+        <div class="step-n">05</div>
+        <div class="step-title-wrap">
+          <h3>Verify Your Listing (Critical Step)</h3>
+          <p>Without verification you won't show up in Maps or Search</p>
+        </div>
+        <div class="step-toggle">+</div>
+      </div>
+      <div class="step-body">
+        <ul class="instructions">
+          <li><div class="inst-dot d-red">1</div><span>Google will ask you to verify. Choose <strong>postcard by mail</strong> (most reliable) or <strong>phone/SMS verification</strong> if offered.</span></li>
+          <li><div class="inst-dot d-red">2</div><span>If postcard: Google mails a card with a 5-digit code to your address. Takes 5–14 days in India. Enter the code when it arrives.</span></li>
+          <li><div class="inst-dot d-red">3</div><span>While waiting for verification: keep adding photos, posts, and services. The listing is live but unverified — verification makes it rank.</span></li>
+          <li><div class="inst-dot d-red">4</div><span>Once verified: your listing appears in <strong>Google Maps</strong> and the <strong>local search panel</strong> when parents search nearby.</span></li>
+        </ul>
+        <div class="tip-box"><strong>Pro tip:</strong> After verification, immediately ask your first 5 students' parents to leave a Google Review. Even 3 reviews puts you above competitors with zero reviews.</div>
+      </div>
+    </div>
+
+    <div class="step-card" onclick="toggleStep(this)">
+      <div class="step-card-header">
+        <div class="step-n">06</div>
+        <div class="step-title-wrap">
+          <h3>Post Weekly Updates (Google Posts)</h3>
+          <p>Posts appear in search results and signal activity to Google</p>
+        </div>
+        <div class="step-toggle">+</div>
+      </div>
+      <div class="step-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Google Posts are free mini-ads that appear in your search listing. Post every 7 days — Google rewards active listings with higher rankings.</p>
+
+        <div class="post-card">
+          <div class="post-type">📣 Offer Post — Use this every new batch</div>
+          <div class="post-content">🎉 New AI Explorer batch starting Book via WhatsApp!
+
+Your child will build a real AI model in the first week — no experience needed.
+
+✅ Grades K–12 welcome
+✅ Online & in-person batches
+✅ Free demo class available
+
+Only 30 seats per batch. WhatsApp us to enroll: [YOUR NUMBER]</div>
+          <div class="post-footer"><span>Type: Offer</span><button class="copy-btn" style="position:static;margin:0" onclick="copyTextEl(this,'📣 New AI Explorer batch...')">Copy</button></div>
+        </div>
+
+        <div class="post-card">
+          <div class="post-type">📸 Update Post — Use after every demo day</div>
+          <div class="post-content">🤖 Look what our Grade 5 students built this week!
+
+In just 3 sessions, they trained an AI to recognise handwritten numbers — using nothing but a shared tablet and Google Teachable Machine.
+
+This is what AI education looks like in 2025. Not slides. Not theory. Real projects, real results.
+
+Interested? Reply on WhatsApp: [YOUR NUMBER]</div>
+          <div class="post-footer"><span>Type: What's New</span></div>
+        </div>
+
+        <div class="post-card">
+          <div class="post-type">❓ Q&A Post — Builds trust, ranks for questions</div>
+          <div class="post-content">Q: Does my child need to know coding to join AI Explorer?
+
+A: Not at all! We start from absolute zero. Our K–5 modules don't use any coding — just games, drawing, and discussion. Coding is introduced gradually for older students using simple drag-and-drop tools. By Grade 9, students are writing Python. But every child starts where they are.
+
+Message us to find the right batch for your child.</div>
+          <div class="post-footer"><span>Type: What's New</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /steps-list -->
+</div>
+
+<!-- KEYWORDS -->
+<div class="section section-alt">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">SEO Keywords</span></div>
+  <h2>What Parents<br>Are Searching.</h2>
+  <p class="sec-sub">Use these exact phrases naturally in your description, posts, and Q&A answers.</p>
+
+  <table class="keyword-table reveal">
+    <thead>
+      <tr><th>Search Term</th><th>Example Variation</th><th>Priority</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>AI classes for kids</strong></td>
+        <td><span class="kw-tag">AI classes for kids Hisar</span><span class="kw-tag">AI classes near me</span></td>
+        <td><span class="volume">🔴 High</span></td>
+      </tr>
+      <tr>
+        <td><strong>Coding classes for children</strong></td>
+        <td><span class="kw-tag">coding class for kids Haryana</span><span class="kw-tag">coding for kids near me</span></td>
+        <td><span class="volume">🔴 High</span></td>
+      </tr>
+      <tr>
+        <td><strong>STEM education program</strong></td>
+        <td><span class="kw-tag">STEM classes grade 5</span><span class="kw-tag">STEM program for school students</span></td>
+        <td><span class="volume">🟡 Medium</span></td>
+      </tr>
+      <tr>
+        <td><strong>AI for school students</strong></td>
+        <td><span class="kw-tag">AI learning for class 8</span><span class="kw-tag">AI education India</span></td>
+        <td><span class="volume">🟡 Medium</span></td>
+      </tr>
+      <tr>
+        <td><strong>Machine learning class kids</strong></td>
+        <td><span class="kw-tag">ML for high school students</span><span class="kw-tag">neural network class India</span></td>
+        <td><span class="volume">🟢 Low / Niche</span></td>
+      </tr>
+      <tr>
+        <td><strong>Online tuition for AI</strong></td>
+        <td><span class="kw-tag">online AI class grade 10</span><span class="kw-tag">AI tutor online India</span></td>
+        <td><span class="volume">🟢 Low / Niche</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- WHAT IT LOOKS LIKE -->
+<div class="section">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">End Result Preview</span></div>
+  <h2>This Is What<br>Parents Will See.</h2>
+  <p class="sec-sub">Your completed listing on Google search — what a parent sees when they search "AI classes for kids Hisar".</p>
+
+  <div class="gmb-preview reveal">
+    <h3>AI Explorer — K-12 AI Education, Hisar</h3>
+    <div class="cat">Tutoring Service · Educational Institution</div>
+    <div class="rating">
+      <span class="stars">★★★★★</span>
+      <span style="font-size:13px;font-weight:600">4.9</span>
+      <span style="font-size:12px;color:var(--muted)">(12 reviews)</span>
+    </div>
+    <div class="gmb-actions">
+      <div class="gaction">📞 Call</div>
+      <div class="gaction">💬 WhatsApp</div>
+      <div class="gaction">🌐 Website</div>
+      <div class="gaction">📍 Directions</div>
+    </div>
+    <div class="gmb-info">
+      <div>⏰ <span>Open today:</span> 9:00 AM – 7:00 PM</div>
+      <div>📍 <span>Hisar, Haryana</span></div>
+      <div>📞 <span>+91 98765 43210</span></div>
+      <div style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">AI Explorer is a K–12 AI education program teaching students from Grade 1 to Grade 12 how artificial intelligence works — through hands-on projects, not just theory...</div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<div class="section section-alt">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">Your Checklist</span></div>
+  <h2>30-Minute<br>Setup Checklist.</h2>
+  <p class="sec-sub">Tap each item when done. Complete all 10 before moving to Instagram.</p>
+
+  <div class="checklist reveal" id="checklist">
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="checkbox"></div>
+      <div><div class="check-text">Created Google Business account at business.google.com</div><div class="check-meta">5 min</div></div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="checkbox"></div>
+      <div><div class="check-text">Added business name with city included</div><div class="check-meta">2 min</div></div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="checkbox"></div>
+      <div><div class="check-text">Selected correct category (Tutoring Service)</div><div class="check-meta">1 min</div></div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="checkbox"></div>
+      <div><div class="check-text">Added WhatsApp number as contact phone</div><div class="check-meta">1 min</div></div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="checkbox"></div>
+      <div><div class="check-text">Added website / enrollment form link</div><div class="check-meta">2 min</div></div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="checkbox"></div>
+      <div><div class="check-text">Pasted optimised description (750 chars)</div><div class="check-meta">3 min</div></div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="checkbox"></div>
+      <div><div class="check-text">Added minimum 10 photos (real, not stock)</div><div class="check-meta">10 min</div></div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="checkbox"></div>
+      <div><div class="check-text">Added all 5 services with descriptions</div><div class="check-meta">5 min</div></div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="checkbox"></div>
+      <div><div class="check-text">Submitted for verification</div><div class="check-meta">1 min</div></div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="checkbox"></div>
+      <div><div class="check-text">Published first Google Post (Offer type)</div><div class="check-meta">5 min</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-footer">
+  <h2>LISTING SET UP? NOW DO INSTAGRAM.</h2>
+  <p>Your GMB brings parents already searching. Instagram brings parents who didn't know they needed you.</p>
+  <a class="btn-cta" href="#">Next: Instagram Reels Guide →</a>
+</div>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const t=document.body.scrollHeight-window.innerHeight;
+  document.getElementById('prog').style.width=(window.scrollY/t*100)+'%';
+});
+function toggleStep(card){
+  card.classList.toggle('open');
+}
+function toggleCheck(item){
+  item.classList.toggle('done');
+}
+function copyText(id,btn){
+  const el=document.getElementById(id);
+  const text=el.innerText.replace('Copy','').trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},2000);
+  });
+}
+const observer=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

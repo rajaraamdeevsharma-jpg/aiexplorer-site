@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedIn Outreach Guide — AI Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0f4f9;
+  --ink:#0a0a14;
+  --surface:#ffffff;
+  --card:#ffffff;
+  --warm:#e8f0fe;
+  --li:#0077b5;
+  --li-dark:#004d7a;
+  --li-light:#e8f4fd;
+  --accent:#0077b5;
+  --accent2:#f5a623;
+  --green:#057642;
+  --muted:#56687a;
+  --border:#dce6f0;
+  --red:#cc1016;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;line-height:1.65;
+  overflow-x:hidden;
+}
+
+/* PROGRESS */
+#prog{position:fixed;top:0;left:0;height:3px;background:var(--li);z-index:300;width:0;transition:width .1s}
+
+/* NAV */
+nav{
+  background:var(--li-dark);
+  padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:99;
+}
+.logo{
+  font-family:'DM Serif Display',serif;
+  font-size:18px;color:#fff;letter-spacing:-.3px;
+}
+.logo span{color:var(--accent2)}
+.li-badge{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.15);
+  color:#fff;font-size:11px;font-weight:600;
+  padding:5px 14px;border-radius:100px;
+}
+.li-icon{
+  width:16px;height:16px;background:var(--li);
+  border-radius:3px;display:flex;align-items:center;
+  justify-content:center;font-size:10px;color:#fff;font-weight:700;
+}
+
+/* HERO */
+.hero{
+  background:linear-gradient(160deg,var(--li-dark) 0%,#001f3f 100%);
+  color:#fff;padding:56px 20px 48px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;
+  top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,119,181,.35),transparent 70%);
+}
+.hero::after{
+  content:'';position:absolute;
+  bottom:-60px;left:-40px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,166,35,.12),transparent 70%);
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.8);font-size:11px;font-weight:600;
+  padding:5px 14px;border-radius:100px;margin-bottom:20px;
+  letter-spacing:.05em;text-transform:uppercase;
+}
+h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(34px,8vw,54px);
+  font-weight:400;line-height:1.1;letter-spacing:-.5px;
+  margin-bottom:16px;position:relative;z-index:1;
+}
+h1 em{font-style:italic;color:var(--accent2)}
+.hero-sub{
+  font-size:14px;color:rgba(255,255,255,.6);
+  max-width:340px;line-height:1.75;margin-bottom:32px;
+  position:relative;z-index:1;
+}
+.hero-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;overflow:hidden;
+  position:relative;z-index:1;
+}
+.hs{background:rgba(255,255,255,.04);padding:16px 10px;text-align:center}
+.hs .v{font-family:'DM Serif Display',serif;font-size:26px;color:var(--accent2);line-height:1;margin-bottom:3px}
+.hs .l{font-size:11px;color:rgba(255,255,255,.45);line-height:1.3}
+
+/* SECTION */
+.section{padding:48px 20px;position:relative;z-index:1}
+.section-alt{background:#fff}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ey-line{width:26px;height:2px;background:var(--li);flex-shrink:0;border-radius:2px}
+.ey-txt{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--li)}
+h2{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(26px,6vw,38px);
+  font-weight:400;line-height:1.1;letter-spacing:-.3px;
+  margin-bottom:8px;
+}
+.sec-sub{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:28px;max-width:420px}
+
+/* WHO TO TARGET */
+.target-cards{display:flex;flex-direction:column;gap:12px}
+.target-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:18px;padding:20px;
+  display:flex;gap:16px;align-items:flex-start;
+  transition:box-shadow .2s,transform .2s;
+}
+.target-card:hover{box-shadow:0 6px 24px rgba(0,119,181,.08);transform:translateY(-2px)}
+.tc-icon{
+  width:44px;height:44px;border-radius:12px;
+  background:var(--li-light);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;
+}
+.tc-body h3{font-size:15px;font-weight:600;margin-bottom:4px}
+.tc-body p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:8px}
+.search-terms{display:flex;flex-wrap:wrap;gap:5px}
+.st{
+  font-size:11px;font-weight:500;
+  background:var(--li-light);color:var(--li);
+  border:1px solid rgba(0,119,181,.15);
+  padding:3px 10px;border-radius:100px;
+}
+.priority-badge{
+  font-size:10px;font-weight:700;letter-spacing:.04em;
+  padding:3px 9px;border-radius:100px;
+  margin-left:auto;white-space:nowrap;align-self:flex-start;
+}
+.pb-high{background:#fef3cd;color:#856404}
+.pb-top{background:#d1ecf1;color:#0c5460}
+.pb-med{background:#e8f5e9;color:#1b5e20}
+
+/* PROFILE SETUP */
+.profile-mockup{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;
+  box-shadow:0 4px 24px rgba(0,0,0,.06);
+}
+.profile-cover{
+  height:80px;
+  background:linear-gradient(135deg,var(--li-dark),var(--li));
+  position:relative;
+}
+.profile-cover-text{
+  position:absolute;bottom:8px;right:16px;
+  font-size:11px;color:rgba(255,255,255,.6);font-style:italic;
+}
+.profile-body{padding:0 18px 18px}
+.profile-pic-wrap{margin-top:-30px;margin-bottom:10px}
+.profile-pic{
+  width:60px;height:60px;border-radius:50%;
+  background:linear-gradient(135deg,var(--li),#004d7a);
+  border:3px solid #fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;
+}
+.profile-name{font-family:'DM Serif Display',serif;font-size:18px;font-weight:400;margin-bottom:2px}
+.profile-headline{font-size:13px;color:var(--muted);margin-bottom:6px;line-height:1.5}
+.profile-location{font-size:12px;color:var(--li);margin-bottom:12px}
+.profile-connect{
+  display:inline-block;background:var(--li);color:#fff;
+  font-size:13px;font-weight:600;padding:7px 20px;
+  border-radius:100px;text-decoration:none;margin-bottom:14px;
+}
+.profile-about{
+  font-size:13px;line-height:1.7;color:var(--ink);
+  border-top:1px solid var(--border);padding-top:14px;
+}
+.field-row{margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
+.field-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.field-val{
+  font-size:13px;line-height:1.65;
+  background:var(--li-light);
+  border:1px solid rgba(0,119,181,.12);
+  border-radius:10px;padding:10px 14px;color:var(--ink);
+}
+.copy-btn{
+  display:inline-block;
+  background:transparent;border:1px solid var(--border);
+  color:var(--muted);font-size:11px;font-weight:600;
+  padding:4px 12px;border-radius:6px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;margin-top:6px;
+  transition:all .2s;
+}
+.copy-btn:hover{background:var(--li);border-color:var(--li);color:#fff}
+.copy-btn.copied{background:var(--green);border-color:var(--green);color:#fff}
+
+/* MESSAGE TEMPLATES */
+.msg-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.msg-tab{
+  font-size:12px;font-weight:600;padding:6px 16px;
+  border-radius:100px;border:1px solid var(--border);
+  cursor:pointer;background:transparent;
+  font-family:'DM Sans',sans-serif;color:var(--muted);
+  transition:all .2s;
+}
+.msg-tab.active{background:var(--li);border-color:var(--li);color:#fff}
+.msg-panel{display:none}
+.msg-panel.active{display:block}
+
+.msg-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:18px;overflow:hidden;
+  margin-bottom:14px;
+}
+.msg-card-header{
+  background:linear-gradient(135deg,var(--li-dark),var(--li));
+  color:#fff;padding:14px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.msg-card-header h3{font-size:14px;font-weight:600}
+.msg-purpose{font-size:11px;color:rgba(255,255,255,.65)}
+.msg-body{padding:16px 18px}
+.msg-subject{
+  font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--li);
+  margin-bottom:6px;
+}
+.msg-text{
+  font-size:13px;line-height:1.8;color:var(--ink);
+  background:var(--bg);border-radius:10px;
+  padding:14px;white-space:pre-line;
+  border:1px solid var(--border);
+  position:relative;
+}
+.msg-tips{
+  margin-top:12px;padding:12px 14px;
+  background:var(--li-light);border-radius:10px;
+  border-left:3px solid var(--li);
+}
+.msg-tips p{font-size:12px;line-height:1.65;color:var(--ink)}
+.msg-tips strong{color:var(--li)}
+.warn-box{
+  background:#fff8e1;border-left:3px solid var(--accent2);
+  border-radius:0 10px 10px 0;padding:12px 14px;
+  font-size:12px;line-height:1.65;margin-top:10px;
+}
+.warn-box strong{color:#7a4f00}
+
+/* SEARCH GUIDE */
+.search-steps{display:flex;flex-direction:column;gap:12px}
+.search-step{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:18px;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.ss-num{
+  font-family:'DM Serif Display',serif;
+  font-size:28px;font-style:italic;color:var(--li);
+  line-height:1;flex-shrink:0;width:32px;
+}
+.ss-body h4{font-size:14px;font-weight:600;margin-bottom:5px}
+.ss-body p{font-size:13px;color:var(--muted);line-height:1.65}
+.search-query{
+  display:inline-block;
+  background:var(--ink);color:#a0e0ff;
+  font-family:monospace;font-size:12px;
+  padding:4px 10px;border-radius:6px;margin-top:6px;
+}
+
+/* FOLLOW-UP TRACKER */
+.tracker{display:flex;flex-direction:column;gap:0}
+.track-row{
+  display:grid;grid-template-columns:auto 1fr auto;
+  gap:14px;align-items:center;
+  padding:12px 0;border-bottom:1px solid var(--border);
+  font-size:13px;
+}
+.track-row:last-child{border-bottom:none}
+.track-day{
+  font-family:'DM Serif Display',serif;
+  font-size:20px;font-style:italic;color:var(--li);
+  width:52px;flex-shrink:0;
+}
+.track-action h4{font-size:13px;font-weight:600;margin-bottom:2px}
+.track-action p{font-size:12px;color:var(--muted);line-height:1.5}
+.track-status{
+  font-size:11px;font-weight:600;
+  padding:4px 10px;border-radius:100px;
+  white-space:nowrap;
+}
+.ts-do{background:#e8f5e9;color:var(--green)}
+.ts-wait{background:#fff8e1;color:#7a4f00}
+.ts-stop{background:#fde8e8;color:#b00020}
+
+/* DO/DON'T TABLE */
+.dd-table{width:100%;border-collapse:collapse;font-size:13px}
+.dd-table th{
+  text-align:left;padding:10px 14px;
+  font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border-bottom:2px solid var(--border);
+}
+.dd-table td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.6}
+.dd-table tr:last-child td{border-bottom:none}
+.dd-table tr:hover td{background:var(--bg)}
+.do-col{color:var(--green)}
+.dont-col{color:var(--red)}
+.th-do{color:var(--green)}
+.th-dont{color:var(--red)}
+
+/* OBJECTION HANDLER */
+.objection-list{display:flex;flex-direction:column;gap:12px}
+.obj-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;cursor:pointer;
+  transition:border-color .2s;
+}
+.obj-card:hover{border-color:rgba(0,119,181,.3)}
+.obj-q{
+  padding:16px 18px;display:flex;justify-content:space-between;
+  align-items:flex-start;gap:12px;
+}
+.obj-q-text{font-size:13px;font-weight:600;color:var(--red);line-height:1.5}
+.obj-toggle{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--bg);color:var(--muted);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;transition:all .25s;
+}
+.obj-card.open .obj-toggle{transform:rotate(45deg);background:var(--green);color:#fff}
+.obj-a{
+  display:none;padding:0 18px 16px;
+  border-top:1px solid var(--border);
+}
+.obj-card.open .obj-a{display:block;padding-top:14px}
+.obj-a p{font-size:13px;line-height:1.7;color:var(--muted);margin-bottom:10px}
+.obj-reply{
+  background:var(--li-light);border-left:3px solid var(--li);
+  border-radius:0 10px 10px 0;
+  padding:12px 14px;font-size:13px;
+  line-height:1.7;font-style:italic;color:var(--ink);
+}
+
+/* RESULTS TRACKER */
+.results-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+}
+.result-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:18px;text-align:center;
+}
+.result-card .icon{font-size:28px;margin-bottom:8px;display:block}
+.result-card h4{font-size:13px;font-weight:600;margin-bottom:4px}
+.result-card p{font-size:12px;color:var(--muted);line-height:1.5}
+.result-card .target{
+  font-family:'DM Serif Display',serif;
+  font-size:22px;color:var(--li);margin-top:8px;display:block;
+}
+
+/* CTA */
+.cta-footer{
+  background:linear-gradient(160deg,var(--li-dark),#001f3f);
+  color:#fff;padding:52px 20px;text-align:center;
+}
+.cta-footer h2{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(28px,7vw,40px);font-weight:400;font-style:italic;
+  letter-spacing:-.3px;margin-bottom:12px;
+}
+.cta-footer p{font-size:14px;color:rgba(255,255,255,.55);margin-bottom:28px;line-height:1.7}
+.btn-wa{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:#25D366;color:#fff;
+  font-weight:700;font-size:15px;
+  padding:15px 32px;border-radius:14px;text-decoration:none;
+  box-shadow:0 4px 24px rgba(37,211,102,.3);
+  transition:transform .15s,box-shadow .15s;width:100%;max-width:320px;
+}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(37,211,102,.45)}
+.btn-wa svg{width:20px;height:20px;fill:#fff;flex-shrink:0}
+
+/* SUMMARY BOX */
+.summary-box{
+  background:var(--li-light);border:1px solid rgba(0,119,181,.15);
+  border-radius:18px;padding:22px;
+}
+.summary-box h3{
+  font-family:'DM Serif Display',serif;font-size:20px;font-style:italic;
+  margin-bottom:14px;color:var(--li-dark);
+}
+.sum-item{display:flex;gap:10px;font-size:13px;padding:7px 0;border-bottom:1px solid rgba(0,119,181,.1);line-height:1.5}
+.sum-item:last-child{border-bottom:none}
+.sum-dot{width:6px;height:6px;background:var(--li);border-radius:50%;flex-shrink:0;margin-top:6px}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
+.reveal.visible{opacity:1;transform:none}
+footer{
+  background:var(--li-dark);color:rgba(255,255,255,.35);
+  text-align:center;padding:18px;font-size:12px;
+}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav>
+  <span class="logo">AI <span>Explorer</span></span>
+  <div class="li-badge"><div class="li-icon">in</div> LinkedIn Outreach Guide</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">💼 Point 8 of 10 · B2B Channel</div>
+  <h1>One Principal.<br><em>500 Students.</em></h1>
+  <p class="hero-sub">LinkedIn is the only channel where school principals, coordinators, and district officers are actively looking to connect. Here's your complete playbook.</p>
+  <div class="hero-stats">
+    <div class="hs"><div class="v">10</div><div class="l">Messages per day is your target</div></div>
+    <div class="hs"><div class="v">30%</div><div class="l">Average reply rate if done right</div></div>
+    <div class="hs"><div class="v">1 call</div><div class="l">= potential school partnership</div></div>
+  </div>
+</div>
+
+<!-- WHO TO TARGET -->
+<div class="section section-alt">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">Step 1 — Who to Target</span></div>
+  <h2>The 4 Decision<br>Makers You Need.</h2>
+  <p class="sec-sub">Don't message randomly. These are the exact roles that can say YES to bringing your program into a school.</p>
+
+  <div class="target-cards reveal">
+    <div class="target-card">
+      <div class="tc-icon">🏫</div>
+      <div class="tc-body">
+        <h3>School Principal / Head Teacher</h3>
+        <p>The ultimate decision maker. One yes from them = entire school enrolled. They care about student outcomes, school reputation, and parent satisfaction — not technology for its own sake.</p>
+        <div class="search-terms">
+          <span class="st">Principal + [City]</span>
+          <span class="st">Headmaster Haryana</span>
+          <span class="st">School Head + CBSE</span>
+        </div>
+      </div>
+      <span class="priority-badge pb-top">🎯 Priority 1</span>
+    </div>
+
+    <div class="target-card">
+      <div class="tc-icon">📚</div>
+      <div class="tc-body">
+        <h3>Academic / Curriculum Coordinator</h3>
+        <p>They manage what gets taught and when. They're always looking for programs that align to national curriculum standards. Mention AI4K12 and UNESCO — they'll recognise these immediately.</p>
+        <div class="search-terms">
+          <span class="st">Academic coordinator school</span>
+          <span class="st">Curriculum head CBSE</span>
+          <span class="st">Vice Principal academics</span>
+        </div>
+      </div>
+      <span class="priority-badge pb-high">⭐ Priority 2</span>
+    </div>
+
+    <div class="target-card">
+      <div class="tc-icon">💻</div>
+      <div class="tc-body">
+        <h3>Computer Science / IT Teacher</h3>
+        <p>Already teaching tech — they understand the gap. Easiest to convince. They can become your internal champion and push the program up to the principal. Offer them free teacher certification.</p>
+        <div class="search-terms">
+          <span class="st">Computer teacher + school</span>
+          <span class="st">IT coordinator CBSE school</span>
+          <span class="st">CS teacher Haryana</span>
+        </div>
+      </div>
+      <span class="priority-badge pb-high">⭐ Priority 2</span>
+    </div>
+
+    <div class="target-card">
+      <div class="tc-icon">🏛️</div>
+      <div class="tc-body">
+        <h3>District Education Officer / DEO</h3>
+        <p>Rare but highest leverage. One DEO can mandate or recommend your program across dozens of government schools. Takes longer but worth pursuing carefully. Find them via government LinkedIn pages.</p>
+        <div class="search-terms">
+          <span class="st">District Education Officer Haryana</span>
+          <span class="st">DEO + district name</span>
+          <span class="st">Block Education Officer</span>
+        </div>
+      </div>
+      <span class="priority-badge pb-med">🌱 Priority 3</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE OPTIMISATION -->
+<div class="section">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">Step 2 — Optimise Your Profile First</span></div>
+  <h2>Your Profile Is<br>Your Pitch Deck.</h2>
+  <p class="sec-sub">A principal will check your LinkedIn profile before replying. If it looks amateur — they won't. Here's exactly what yours should look like.</p>
+
+  <div class="profile-mockup reveal">
+    <div class="profile-cover">
+      <div class="profile-cover-text">Cover: Clean banner with "AI Explorer · K–12 AI Education · Haryana"</div>
+    </div>
+    <div class="profile-body">
+      <div class="profile-pic-wrap">
+        <div class="profile-pic">👤</div>
+      </div>
+      <div class="profile-name">[Your Full Name]</div>
+      <div class="profile-headline">Founder, AI Explorer · K–12 AI Education Specialist · UNESCO & AI4K12 Curriculum · Helping schools prepare students for an AI-first world</div>
+      <div class="profile-location">📍 Hisar, Haryana, India · 500+ connections</div>
+      <a class="profile-connect">+ Connect</a>
+
+      <div class="field-row">
+        <div class="field-lbl">Headline (most important field — use keywords)</div>
+        <div class="field-val">Founder, AI Explorer · K–12 AI Education Specialist · UNESCO & AI4K12 Curriculum · Helping schools prepare students for an AI-first world</div>
+        <button class="copy-btn" onclick="copyEl(this,'Founder, AI Explorer · K–12 AI Education Specialist · UNESCO & AI4K12 Curriculum · Helping schools prepare students for an AI-first world')">Copy headline</button>
+      </div>
+
+      <div class="field-row">
+        <div class="field-lbl">About Section (first 3 lines are visible before "see more")</div>
+        <div class="field-val">I run AI Explorer — a K–12 AI education program teaching students from Grade 1 to Grade 12 how artificial intelligence works, through hands-on projects aligned to UNESCO and AI4K12 frameworks.
+
+In our program, Grade 3 students build image classifiers. Grade 8 students design chatbots. Grade 11 students train neural networks in Python and write ethical analyses of real AI systems.
+
+No coding experience needed. Works on any device. In-person, online, or hybrid delivery.
+
+I partner with schools across Haryana to bring structured, standards-aligned AI education into classrooms — at no cost to the school in our pilot model.
+
+If you're a principal, coordinator, or teacher wondering how to bring AI literacy to your students — I'd love 20 minutes to show you what we do.
+
+📧 [your email] · 📱 [your WhatsApp]</div>
+        <button class="copy-btn" onclick="copyEl(this,'I run AI Explorer — a K–12 AI education program...')">Copy about</button>
+      </div>
+
+      <div class="field-row">
+        <div class="field-lbl">Featured Section — Pin these 3 items</div>
+        <div class="field-val">1. Link to your educator profile HTML page ("What I Teach & How I Teach")
+2. Link to your enrollment form page
+3. A post showing a student project / demo day photo with strong engagement</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH GUIDE -->
+<div class="section section-alt">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">Step 3 — Find Your Targets</span></div>
+  <h2>How to Find<br>Principals on LinkedIn.</h2>
+  <p class="sec-sub">Use LinkedIn's free search strategically. You can find 50–100 qualified contacts per day without Premium.</p>
+
+  <div class="search-steps reveal">
+    <div class="search-step">
+      <div class="ss-num">1</div>
+      <div class="ss-body">
+        <h4>Basic People Search</h4>
+        <p>Go to LinkedIn search bar → click "People" filter → type your search query. Filter by location: "Haryana" or your specific district.</p>
+        <div class="search-query">"Principal" "school" Hisar</div>
+        <div class="search-query">"Vice Principal" CBSE Haryana</div>
+        <div class="search-query">"Academic coordinator" school India</div>
+      </div>
+    </div>
+    <div class="search-step">
+      <div class="ss-num">2</div>
+      <div class="ss-body">
+        <h4>School Page Search</h4>
+        <p>Search the school name as a Company → go to their LinkedIn page → click "See all employees" → filter by "Principal", "Head", "Coordinator". This is more targeted than a general people search.</p>
+        <div class="search-query">"Delhi Public School" Hisar employees</div>
+        <div class="search-query">"DAV School" Haryana principal</div>
+      </div>
+    </div>
+    <div class="search-step">
+      <div class="ss-num">3</div>
+      <div class="ss-body">
+        <h4>LinkedIn Alumni Tool (Underused)</h4>
+        <p>Go to any education-focused university page (like Kurukshetra University or MDU Hisar) → click "Alumni" → filter alumni by "Education" industry + your city. These are trained educators in your district.</p>
+      </div>
+    </div>
+    <div class="search-step">
+      <div class="ss-num">4</div>
+      <div class="ss-body">
+        <h4>Groups (Free — No Premium Needed)</h4>
+        <p>Search LinkedIn Groups: "CBSE School Principals India", "Indian Educators Network", "School Leadership India". Join these groups → post your content → connect with active members who comment.</p>
+        <div class="search-query">Group: "CBSE Educators India"</div>
+        <div class="search-query">Group: "School Principals Network India"</div>
+      </div>
+    </div>
+    <div class="search-step">
+      <div class="ss-num">5</div>
+      <div class="ss-body">
+        <h4>Do You Need LinkedIn Premium?</h4>
+        <p>No — not to start. Free LinkedIn allows 10–20 connection requests per week and unlimited messaging to 1st-degree connections. Start with free. If you're getting replies and scaling, the Career plan (₹1,600/month) adds InMail credits for cold outreach to 2nd/3rd degree connections.</p>
+        <div style="margin-top:8px;background:#e8f5e9;border-radius:8px;padding:10px 12px;font-size:12px;color:var(--green)">
+          <strong>Partner tip:</strong> Focus on getting connections accepted first — then message for free. Premium is optional for 3+ months.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MESSAGE TEMPLATES -->
+<div class="section">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">Step 4 — What to Say</span></div>
+  <h2>Word-for-Word<br>Message Templates.</h2>
+  <p class="sec-sub">4 templates for every stage — connection request, first message, follow-up, and cold InMail. Copy. Personalise. Send.</p>
+
+  <div class="msg-tabs">
+    <button class="msg-tab active" onclick="switchMsg('connect',this)">Connection Request</button>
+    <button class="msg-tab" onclick="switchMsg('first',this)">First Message</button>
+    <button class="msg-tab" onclick="switchMsg('followup',this)">Follow-Up</button>
+    <button class="msg-tab" onclick="switchMsg('cold',this)">Cold InMail</button>
+  </div>
+
+  <!-- CONNECT -->
+  <div class="msg-panel active" id="panel-connect">
+    <div class="msg-card reveal">
+      <div class="msg-card-header">
+        <div><h3>Connection Request Note</h3><div class="msg-purpose">Purpose: Get accepted · 300 character limit</div></div>
+      </div>
+      <div class="msg-body">
+        <div class="msg-subject">Template A — For Principals</div>
+        <div class="msg-text" id="ct1">Hi [Name], I run an AI education program for K–12 students in Hisar — aligned to UNESCO and AI4K12 frameworks. I'd love to connect and share what our students are building. Would be great to have you in my network.
+<button class="copy-btn" onclick="copyMsg('ct1',this)">Copy</button></div>
+        <div style="margin-top:12px">
+        <div class="msg-subject">Template B — For CS Teachers</div>
+        <div class="msg-text" id="ct2">Hi [Name], I see you're a CS/IT teacher at [School] — I run an AI Explorer program for K–12 students and offer free teacher certification as part of our school partnership model. Would love to connect and share more.
+<button class="copy-btn" onclick="copyMsg('ct2',this)">Copy</button></div>
+        </div>
+        <div class="msg-tips"><p><strong>Key rule:</strong> Never pitch in the connection request. The goal is ONLY to get accepted. Keep it warm, credible, curious. Mention something specific about them or their school to show you're not copy-pasting to everyone.</p></div>
+        <div class="warn-box"><strong>⚠️ LinkedIn limits:</strong> Free accounts can send ~20 connection requests per week. Don't blow them all on cold targets — spend 30% on warm contacts (people who engaged with your posts) and 70% on targeted principals.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIRST MESSAGE -->
+  <div class="msg-panel" id="panel-first">
+    <div class="msg-card reveal">
+      <div class="msg-card-header">
+        <div><h3>First Message (After Connected)</h3><div class="msg-purpose">Send within 24 hours of connection accepted · Keep under 150 words</div></div>
+      </div>
+      <div class="msg-body">
+        <div class="msg-subject">Template — Principal / Academic Head</div>
+        <div class="msg-text" id="fm1">Hi [Name],
+
+Thank you for connecting!
+
+I wanted to reach out because we've just launched AI Explorer — a K–12 AI education program aligned to UNESCO and AI4K12 frameworks — and I'm looking to partner with forward-thinking schools in Hisar.
+
+Our students build real AI projects: image classifiers, chatbots, and ethical AI analyses. No expensive equipment needed — works on any device, even smartphones.
+
+We're offering a free pilot module (6 lessons, no commitment) to our first partner schools this term.
+
+Would you be open to a 20-minute call or screen share to see what our students are building?
+
+Happy to send our educator overview first if that's easier.
+
+Best,
+Raja Ram Dev Sharma
+<button class="copy-btn" onclick="copyMsg('fm1',this)">Copy</button></div>
+        <div class="msg-tips"><p><strong>What makes this work:</strong> (1) It's short — principals are busy. (2) "Free pilot" removes financial risk. (3) "No commitment" removes pressure. (4) It offers two options (call OR overview doc) — giving them an easy low-effort way to say yes.</p></div>
+
+        <div style="margin-top:14px">
+        <div class="msg-subject">Template — CS / IT Teacher (Internal Champion Route)</div>
+        <div class="msg-text" id="fm2">Hi [Name],
+
+Thanks for connecting!
+
+I run AI Explorer — a K–12 AI education program — and noticed you're teaching CS/IT at [School]. I'd love your perspective on something.
+
+We've built a curriculum where Grade 5 students train image classifiers, Grade 8 students build chatbots, and Grade 11 students write Python and study AI ethics — all with free browser-based tools.
+
+As part of our school partnership model, we offer the classroom teacher free AI literacy certification (Flint + Google ISTE-backed).
+
+Would this be something worth exploring for your students? Happy to send a 2-page overview or jump on a quick call.
+
+Raja Ram Dev Sharma
+<button class="copy-btn" onclick="copyMsg('fm2',this)">Copy</button></div>
+        <div class="msg-tips"><p><strong>Why target teachers first:</strong> A CS teacher who loves your program will walk into the principal's office and say "we should do this." That internal recommendation is 10× more powerful than a cold outreach from you.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOLLOW UP -->
+  <div class="msg-panel" id="panel-followup">
+    <div class="msg-card reveal">
+      <div class="msg-card-header">
+        <div><h3>Follow-Up Messages</h3><div class="msg-purpose">If no reply after 5–7 days · Maximum 2 follow-ups then stop</div></div>
+      </div>
+      <div class="msg-body">
+        <div class="msg-subject">Follow-Up 1 — Add Value (Day 7)</div>
+        <div class="msg-text" id="fu1">Hi [Name],
+
+Just following up on my message from last week about AI Explorer.
+
+I thought you might find this interesting — I've put together a short overview of what our students build in their first 6 weeks: [link to your educator profile HTML page].
+
+No pressure at all — just thought it might be useful context if you're thinking about AI education for your students.
+
+If now isn't the right time, I completely understand. Happy to reconnect in the next term.
+
+Raja Ram Dev Sharma
+<button class="copy-btn" onclick="copyMsg('fu1',this)">Copy</button></div>
+        <div style="margin-top:12px">
+        <div class="msg-subject">Follow-Up 2 — Final Nudge (Day 14)</div>
+        <div class="msg-text" id="fu2">Hi [Name],
+
+Last message from me on this — I don't want to crowd your inbox!
+
+We're closing our pilot school applications for this term on Book via WhatsApp. If Your School might be interested in a free 6-lesson AI pilot for your students, I'd love to make it happen.
+
+If not — absolutely no problem. I'll reach back out next term.
+
+Either way, best of luck with the rest of the school year.
+
+Raja Ram Dev Sharma
+<button class="copy-btn" onclick="copyMsg('fu2',this)">Copy</button></div>
+        </div>
+        <div class="msg-tips"><p><strong>The "Last message" technique:</strong> Telling someone it's your final message triggers reciprocity — people feel they owe you a response, even if it's a no. A no is still data. A no now is often a yes next term.</p></div>
+        <div class="warn-box"><strong>⚠️ Hard rule:</strong> Maximum 2 follow-ups. If someone doesn't reply after 3 messages total, move on. Chasing further damages your reputation and risks being reported as spam on LinkedIn. Mark them for re-contact next term.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLD INMAIL -->
+  <div class="msg-panel" id="panel-cold">
+    <div class="msg-card reveal">
+      <div class="msg-card-header">
+        <div><h3>Cold InMail (LinkedIn Premium)</h3><div class="msg-purpose">For 2nd/3rd degree connections you can't reach otherwise · Use sparingly</div></div>
+      </div>
+      <div class="msg-body">
+        <div class="msg-subject">InMail Subject Line (critical — determines open rate)</div>
+        <div class="msg-text" id="il1">Subject: Free AI pilot for Your School students — 6 lessons, no cost
+
+Hi [Name],
+
+I'll keep this brief — I know your time is valuable.
+
+I run AI Explorer, a K–12 AI education program that's brought hands-on AI learning to classrooms across Haryana. Students build real projects — image classifiers, chatbots, and ethical AI analyses — using free browser-based tools that work on any device.
+
+I'm offering Your School a free 6-lesson pilot this term with no obligation to continue. We handle everything — lesson plans, teacher training, student assessments.
+
+Would a 20-minute call this week or next make sense?
+
+Best,
+Raja Ram Dev Sharma | AI Explorer
+📱 [WhatsApp] | 🌐 [Website]
+<button class="copy-btn" onclick="copyMsg('il1',this)">Copy</button></div>
+        <div class="msg-tips"><p><strong>InMail best practices:</strong> (1) Subject line is everything — name the school specifically. (2) Lead with what you're GIVING (free pilot) not what you want. (3) End with a specific, low-friction ask (20 min call). (4) Include your WhatsApp — many principals prefer it over email.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOLLOW UP SCHEDULE -->
+<div class="section section-alt">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">Step 5 — Follow-Up Schedule</span></div>
+  <h2>The Exact Timeline<br>After Connecting.</h2>
+  <p class="sec-sub">Most deals happen on the 2nd or 3rd touch — not the first. Follow this precisely.</p>
+
+  <div class="tracker reveal">
+    <div class="track-row">
+      <div class="track-day">D0</div>
+      <div class="track-action"><h4>Send connection request with personalised note</h4><p>Research the school first. Mention one specific thing (their sports achievements, a STEM initiative, their NEP 2020 focus).</p></div>
+      <span class="track-status ts-do">Do now</span>
+    </div>
+    <div class="track-row">
+      <div class="track-day">D1</div>
+      <div class="track-action"><h4>Connection accepted → Send first message within 24 hours</h4><p>Strike while warm. Use First Message template. Attach or link your educator profile page.</p></div>
+      <span class="track-status ts-do">Do now</span>
+    </div>
+    <div class="track-row">
+      <div class="track-day">D7</div>
+      <div class="track-action"><h4>No reply → Follow-Up 1 with added value</h4><p>Share a student project result or a news article about AI in education. Add something new — don't just say "checking in".</p></div>
+      <span class="track-status ts-wait">If no reply</span>
+    </div>
+    <div class="track-row">
+      <div class="track-day">D14</div>
+      <div class="track-action"><h4>Still no reply → Final follow-up message</h4><p>Use the "Last message" template. Mention your pilot deadline. Give a graceful exit.</p></div>
+      <span class="track-status ts-wait">If no reply</span>
+    </div>
+    <div class="track-row">
+      <div class="track-day">D15+</div>
+      <div class="track-action"><h4>No reply after 3 messages → Stop. Move on.</h4><p>Mark in your tracker as "Follow up next term". Re-engage in 90 days with fresh news or a student success story.</p></div>
+      <span class="track-status ts-stop">Stop & move on</span>
+    </div>
+    <div class="track-row">
+      <div class="track-day">Reply</div>
+      <div class="track-action"><h4>They reply with interest → Book a call within 24 hours</h4><p>Send a Calendly link or offer 2–3 specific time slots. Don't leave it open-ended — open-ended never gets booked.</p></div>
+      <span class="track-status ts-do">Move fast!</span>
+    </div>
+  </div>
+</div>
+
+<!-- DO / DON'T -->
+<div class="section">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">Rules of Engagement</span></div>
+  <h2>LinkedIn Dos<br>& Don'ts.</h2>
+  <p class="sec-sub">LinkedIn outreach fails almost always for the same reasons. Avoid these.</p>
+
+  <div class="reveal" style="overflow-x:auto;border:1px solid var(--border);border-radius:16px;background:var(--surface)">
+    <table class="dd-table">
+      <thead><tr>
+        <th class="th-do">✅ DO</th>
+        <th class="th-dont">❌ DON'T</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="do-col">Personalise every message with their name and school</td><td class="dont-col">Send the same message copy-pasted to 50 people</td></tr>
+        <tr><td class="do-col">Lead with what you give (free pilot, teacher training)</td><td class="dont-col">Lead with what you want (meeting, call, enrollment)</td></tr>
+        <tr><td class="do-col">Keep messages under 150 words</td><td class="dont-col">Send walls of text explaining everything about your program</td></tr>
+        <tr><td class="do-col">Offer a specific, low-effort ask (20-min call)</td><td class="dont-col">Say "let me know if you're interested" — vague = ignored</td></tr>
+        <tr><td class="do-col">Post valuable content on LinkedIn 2–3x/week to build authority</td><td class="dont-col">Only message people — no content = no credibility</td></tr>
+        <tr><td class="do-col">Follow up maximum 2 times then stop</td><td class="dont-col">Send 5+ messages chasing — destroys reputation</td></tr>
+        <tr><td class="do-col">Mention UNESCO / AI4K12 alignment — educators recognise these</td><td class="dont-col">Use buzzwords like "revolutionary", "game-changing", "disrupting education"</td></tr>
+        <tr><td class="do-col">Track every outreach in a spreadsheet</td><td class="dont-col">Rely on memory — you'll lose track by day 3</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- OBJECTIONS -->
+<div class="section section-alt">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">Step 6 — Handle Objections</span></div>
+  <h2>What Principals<br>Say & How to Reply.</h2>
+  <p class="sec-sub">Every principal will raise one of these 5 objections. Tap to see exactly how to respond.</p>
+
+  <div class="objection-list reveal">
+    <div class="obj-card" onclick="toggleObj(this)">
+      <div class="obj-q"><div class="obj-q-text">"We don't have the budget for extra programs right now."</div><div class="obj-toggle">+</div></div>
+      <div class="obj-a">
+        <p>This is the #1 objection. They assume it costs money. Reframe immediately.</p>
+        <div class="obj-reply">"Completely understood — which is exactly why I lead with a free 6-lesson pilot for partner schools. No budget required, no commitment to continue. I cover the lesson materials and teacher training at no cost. If your students love it and you want to expand, we can talk about options at that point. Would a free pilot still be a problem?"</div>
+      </div>
+    </div>
+
+    <div class="obj-card" onclick="toggleObj(this)">
+      <div class="obj-q"><div class="obj-q-text">"Our teachers don't have the technical background to teach AI."</div><div class="obj-toggle">+</div></div>
+      <div class="obj-a">
+        <p>This is actually an opportunity, not a barrier. Flip it.</p>
+        <div class="obj-reply">"That's exactly why we include free AI literacy certification for the classroom teacher as part of every partnership. Our teachers complete a 4-hour online course (free, from Flint and Google) before the program starts. No technical background needed — if they can use a smartphone, they can run our lessons. We've trained teachers with zero tech background and they're now our best advocates."</div>
+      </div>
+    </div>
+
+    <div class="obj-card" onclick="toggleObj(this)">
+      <div class="obj-q"><div class="obj-q-text">"Our students need to focus on board exams, not extra subjects."</div><div class="obj-toggle">+</div></div>
+      <div class="obj-a">
+        <p>This is a priority objection. Show relevance to their core goals.</p>
+        <div class="obj-reply">"Absolutely — board prep comes first. Our program is designed to complement, not compete with board preparation. Most schools run it as an after-school club, a free period, or a Saturday session. It's also worth noting that CBSE and NEP 2020 now include AI as a recommended subject area — so this actually supports your curriculum compliance, not adds to the burden."</div>
+      </div>
+    </div>
+
+    <div class="obj-card" onclick="toggleObj(this)">
+      <div class="obj-q"><div class="obj-q-text">"We already have a computer science program."</div><div class="obj-toggle">+</div></div>
+      <div class="obj-a">
+        <p>Don't compete — show the gap your program fills.</p>
+        <div class="obj-reply">"That's great — CS and AI are complementary but different. Most CS programs teach programming syntax and software concepts. Our AI program teaches students to train machine learning models, understand algorithmic bias, and design ethical AI systems. These are skills that even most CS graduates don't have yet. Many of our best partner schools already have strong CS programs — our module plugs into it rather than replacing it."</div>
+      </div>
+    </div>
+
+    <div class="obj-card" onclick="toggleObj(this)">
+      <div class="obj-q"><div class="obj-q-text">"Send me more information and I'll think about it."</div><div class="obj-toggle">+</div></div>
+      <div class="obj-a">
+        <p>This is a soft no — or a delay tactic. Don't just send a PDF and wait. Move them forward.</p>
+        <div class="obj-reply">"Of course — I'll send our educator overview right now. [Send the educator profile HTML page link.] While I have you — would it make sense to do a quick 20-minute screen share so I can show you what students actually build? I find it's much clearer than a document. I have Tuesday at 4pm or Thursday at 11am free — does either work?"</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEKLY TARGETS -->
+<div class="section">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">Step 7 — Weekly Targets</span></div>
+  <h2>Your LinkedIn<br>Numbers Game.</h2>
+  <p class="sec-sub">Outreach is a funnel. Know your numbers, work your numbers, hit your targets.</p>
+
+  <div class="results-grid reveal">
+    <div class="result-card">
+      <span class="icon">🔗</span>
+      <h4>Connection Requests Sent</h4>
+      <p>Personalised, targeted at principals and CS teachers</p>
+      <span class="target">20 / week</span>
+    </div>
+    <div class="result-card">
+      <span class="icon">✅</span>
+      <h4>Connections Accepted</h4>
+      <p>Expect ~50% acceptance rate with personalised notes</p>
+      <span class="target">~10 / week</span>
+    </div>
+    <div class="result-card">
+      <span class="icon">💬</span>
+      <h4>First Messages Sent</h4>
+      <p>To every accepted connection within 24 hours</p>
+      <span class="target">10 / week</span>
+    </div>
+    <div class="result-card">
+      <span class="icon">↩️</span>
+      <h4>Replies Received</h4>
+      <p>~30% reply rate with good personalisation</p>
+      <span class="target">~3 / week</span>
+    </div>
+    <div class="result-card">
+      <span class="icon">📞</span>
+      <h4>Calls Booked</h4>
+      <p>From interested replies — convert ~50% to calls</p>
+      <span class="target">~1–2 / week</span>
+    </div>
+    <div class="result-card">
+      <span class="icon">🏫</span>
+      <h4>School Partnerships</h4>
+      <p>From calls — convert ~30% to pilot partnerships</p>
+      <span class="target">1 / month</span>
+    </div>
+  </div>
+
+  <div class="summary-box reveal" style="margin-top:20px">
+    <h3>The Maths, Partner</h3>
+    <div class="sum-item"><div class="sum-dot"></div><span>20 connection requests/week × 4 weeks = 80 requests per month</span></div>
+    <div class="sum-item"><div class="sum-dot"></div><span>50% acceptance = 40 new connections with principals/teachers</span></div>
+    <div class="sum-item"><div class="sum-dot"></div><span>30% reply rate = 12 warm conversations per month</span></div>
+    <div class="sum-item"><div class="sum-dot"></div><span>50% call booking = 6 calls with school decision-makers</span></div>
+    <div class="sum-item"><div class="sum-dot"></div><span>30% conversion = <strong>1–2 school partnerships per month</strong></span></div>
+    <div class="sum-item"><div class="sum-dot"></div><span>1 school = 30–500 students enrolled = your fastest growth channel</span></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-footer">
+  <h2>Ready to send your<br><em>first message today?</em></h2>
+  <p>Copy the templates above, find 5 principals in your city on LinkedIn right now, and send your first 5 connection requests. That's it. That's the start.</p>
+  <a class="btn-wa" href="https://wa.me/919996373130?text=Hi!%20I%20want%20to%20discuss%20an%20AI%20education%20partnership%20for%20my%20school" target="_blank">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.504 3.935 1.385 5.619L0 24l6.545-1.361A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.805 9.805 0 01-5.032-1.386l-.36-.214-3.733.979.996-3.648-.235-.374A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+    WhatsApp Me About School Partnership
+  </a>
+</div>
+
+<footer><p>AI Explorer · LinkedIn Outreach Guide · Part of the 10-Channel Marketing Playbook</p></footer>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const t=document.body.scrollHeight-window.innerHeight;
+  document.getElementById('prog').style.width=(window.scrollY/t*100)+'%';
+});
+
+function switchMsg(id,btn){
+  document.querySelectorAll('.msg-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.msg-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleObj(card){card.classList.toggle('open')}
+
+function copyEl(btn,text){
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},2000);
+  });
+}
+
+function copyMsg(id,btn){
+  const el=document.getElementById(id);
+  const text=el.innerText.replace(/Copy|Copied!/g,'').trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},2000);
+  });
+}
+
+const observer=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

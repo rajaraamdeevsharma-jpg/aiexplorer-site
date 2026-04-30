@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Demo Class — AI Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fffbf5;
+  --ink:#14100a;
+  --surface:#fff;
+  --warm:#fef6e8;
+  --orange:#f56e0f;
+  --orange2:#ff9240;
+  --orange-light:#fff0e0;
+  --green:#0a8a4a;
+  --green-light:#e6f7ee;
+  --border:#ede5d8;
+  --muted:#7a6a55;
+  --dark:#1a1208;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Manrope',sans-serif;
+  font-size:15px;line-height:1.65;
+  overflow-x:hidden;
+}
+
+/* TICKER */
+.ticker{
+  background:var(--orange);color:#fff;
+  padding:9px 0;overflow:hidden;
+  font-size:12px;font-weight:700;letter-spacing:.05em;
+}
+.ticker-inner{
+  display:flex;gap:0;
+  animation:ticker 20s linear infinite;
+  width:max-content;
+}
+.ticker-item{
+  white-space:nowrap;padding:0 32px;
+  display:flex;align-items:center;gap:8px;
+}
+.ticker-dot{width:5px;height:5px;background:rgba(255,255,255,.5);border-radius:50%;flex-shrink:0}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* NAV */
+nav{
+  background:var(--dark);
+  padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:99;
+}
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:18px;font-style:italic;color:#fff;
+}
+.logo span{font-style:normal;font-weight:700;color:var(--orange2)}
+.nav-pill{
+  background:var(--orange);color:#fff;
+  font-size:12px;font-weight:700;
+  padding:7px 16px;border-radius:100px;
+  animation:glow 2s ease-in-out infinite;
+}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(245,110,15,.4)}50%{box-shadow:0 0 0 8px rgba(245,110,15,0)}}
+
+/* HERO */
+.hero{
+  background:var(--dark);
+  color:#fff;
+  padding:52px 20px 0;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;
+  top:-100px;left:50%;transform:translateX(-50%);
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,110,15,.2),transparent 65%);
+  pointer-events:none;
+}
+.free-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(245,110,15,.15);
+  border:1px solid rgba(245,110,15,.3);
+  color:var(--orange2);
+  font-size:12px;font-weight:700;letter-spacing:.06em;
+  padding:6px 18px;border-radius:100px;
+  margin-bottom:22px;
+  text-transform:uppercase;
+}
+.free-tag-dot{width:7px;height:7px;background:var(--orange);border-radius:50%;animation:blink 1.3s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(36px,9vw,58px);
+  font-weight:700;line-height:1.05;
+  letter-spacing:-.5px;margin-bottom:16px;
+  position:relative;z-index:1;
+}
+h1 em{font-style:italic;color:var(--orange2)}
+.hero-sub{
+  font-size:15px;color:rgba(255,255,255,.55);
+  max-width:360px;margin:0 auto 32px;
+  line-height:1.75;position:relative;z-index:1;
+}
+
+/* COUNTDOWN */
+.countdown-wrap{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px 20px 0 0;
+  padding:24px 20px;
+  margin:0 0 0;
+  position:relative;z-index:1;
+}
+.cd-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:14px}
+.cd-units{display:flex;justify-content:center;gap:12px}
+.cd-unit{display:flex;flex-direction:column;align-items:center;gap:4px}
+.cd-num{
+  font-family:'Playfair Display',serif;
+  font-size:42px;font-weight:700;color:#fff;
+  line-height:1;min-width:56px;text-align:center;
+  background:rgba(255,255,255,.06);border-radius:10px;padding:6px 8px;
+}
+.cd-lbl{font-size:10px;font-weight:600;letter-spacing:.08em;color:rgba(255,255,255,.35);text-transform:uppercase}
+.cd-colon{font-family:'Playfair Display',serif;font-size:36px;color:rgba(255,255,255,.2);padding-bottom:16px}
+
+/* DEMO DETAILS */
+.demo-card{
+  background:var(--surface);
+  border-radius:24px;
+  border:1px solid var(--border);
+  padding:24px;
+  margin:20px 20px 0;
+  box-shadow:0 8px 40px rgba(0,0,0,.06);
+}
+.demo-card-title{
+  font-family:'Playfair Display',serif;
+  font-size:20px;font-weight:700;font-style:italic;
+  margin-bottom:16px;color:var(--dark);
+}
+.demo-detail-row{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:10px 0;border-bottom:1px solid var(--border);
+  font-size:13px;
+}
+.demo-detail-row:last-child{border-bottom:none}
+.dd-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.dd-body h4{font-size:13px;font-weight:700;margin-bottom:2px}
+.dd-body p{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* WHAT HAPPENS */
+.section{padding:44px 20px}
+.section-alt{background:var(--warm)}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ey-line{width:24px;height:3px;background:var(--orange);flex-shrink:0;border-radius:2px}
+.ey-txt{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange)}
+h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(26px,6vw,36px);
+  font-weight:700;line-height:1.1;letter-spacing:-.3px;
+  margin-bottom:8px;
+}
+h2 em{font-style:italic;color:var(--orange)}
+.sec-sub{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:28px;max-width:380px}
+
+/* TIMELINE */
+.demo-timeline{display:flex;flex-direction:column;gap:0;position:relative;padding-left:32px}
+.demo-timeline::before{
+  content:'';position:absolute;left:10px;top:20px;bottom:20px;
+  width:2px;background:repeating-linear-gradient(to bottom,var(--orange) 0,var(--orange) 5px,transparent 5px,transparent 10px);
+  opacity:.3;
+}
+.dtl-item{position:relative;padding:14px 0}
+.dtl-dot{
+  position:absolute;left:-28px;top:18px;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--orange);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;
+  box-shadow:0 0 0 4px rgba(245,110,15,.15);
+  z-index:1;
+}
+.dtl-time{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:.04em;margin-bottom:3px}
+.dtl-title{font-size:14px;font-weight:700;margin-bottom:4px}
+.dtl-desc{font-size:13px;color:var(--muted);line-height:1.65}
+
+/* WHO IS IT FOR */
+.who-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.who-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:16px;
+  transition:border-color .2s,transform .2s;
+}
+.who-card:hover{border-color:var(--orange);transform:translateY(-2px)}
+.who-emoji{font-size:28px;margin-bottom:8px;display:block}
+.who-card h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.who-card p{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* TESTIMONIALS */
+.testi-stack{display:flex;flex-direction:column;gap:12px}
+.testi{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:18px;padding:18px;
+  position:relative;
+}
+.testi::before{
+  content:'\201C';
+  position:absolute;top:8px;right:16px;
+  font-family:'Playfair Display',serif;
+  font-size:56px;color:var(--orange);opacity:.15;
+  line-height:1;
+}
+.testi-text{font-size:13px;line-height:1.75;font-style:italic;color:var(--ink);margin-bottom:12px}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-av{
+  width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:12px;color:#fff;flex-shrink:0;
+}
+.av1{background:linear-gradient(135deg,var(--orange),#ff6b35)}
+.av2{background:linear-gradient(135deg,var(--green),#0a6e3c)}
+.av3{background:linear-gradient(135deg,#7c3aed,#4f46e5)}
+.testi-name{font-size:13px;font-weight:700}
+.testi-role{font-size:11px;color:var(--muted)}
+
+/* WHAT YOU GET */
+.perks-list{display:flex;flex-direction:column;gap:10px}
+.perk{
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:14px;
+}
+.perk-icon{font-size:22px;flex-shrink:0;margin-top:1px}
+.perk h4{font-size:13px;font-weight:700;margin-bottom:3px}
+.perk p{font-size:12px;color:var(--muted);line-height:1.55}
+.perk-tag{
+  display:inline-block;font-size:10px;font-weight:700;
+  padding:2px 9px;border-radius:100px;margin-top:5px;
+  letter-spacing:.04em;
+}
+.pt-free{background:var(--green-light);color:var(--green)}
+.pt-bonus{background:var(--orange-light);color:var(--orange)}
+
+/* REGISTER FORM */
+.register-section{
+  background:var(--dark);color:#fff;
+  padding:52px 20px;text-align:center;
+}
+.register-section h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,7vw,40px);
+  color:#fff;margin-bottom:8px;
+}
+.register-section h2 em{color:var(--orange2)}
+.register-section p{color:rgba(255,255,255,.5);font-size:14px;margin-bottom:28px;line-height:1.7}
+.reg-form{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;padding:24px;
+  display:flex;flex-direction:column;gap:12px;
+  text-align:left;margin-bottom:16px;
+}
+.reg-field{display:flex;flex-direction:column;gap:5px}
+.reg-field label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+.reg-field input,.reg-field select{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:12px 14px;
+  font-family:'Manrope',sans-serif;font-size:14px;color:#fff;outline:none;
+  transition:border-color .2s;
+  appearance:none;-webkit-appearance:none;
+}
+.reg-field input:focus,.reg-field select:focus{border-color:var(--orange)}
+.reg-field input::placeholder{color:rgba(255,255,255,.2)}
+.reg-field select option{background:#1a1208;color:#fff}
+.reg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wa-register{
+  width:100%;background:#25D366;color:#fff;
+  font-family:'Manrope',sans-serif;font-weight:700;font-size:15px;
+  padding:16px 24px;border-radius:14px;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:transform .15s,box-shadow .15s;
+  box-shadow:0 4px 24px rgba(37,211,102,.3);
+}
+.wa-register:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(37,211,102,.45)}
+.wa-register svg{width:20px;height:20px;fill:#fff;flex-shrink:0}
+.trust-row{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:16px;
+  margin-top:16px;
+}
+.trust-item{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.35)}
+
+/* FLOATING CTA */
+.floating-cta{
+  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+  z-index:200;display:none;width:calc(100% - 32px);max-width:400px;
+}
+.floating-cta a{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--orange);color:#fff;
+  font-weight:700;font-size:14px;
+  padding:15px 24px;border-radius:100px;
+  text-decoration:none;
+  box-shadow:0 8px 32px rgba(245,110,15,.45);
+  width:100%;transition:transform .15s;
+}
+.floating-cta a:hover{transform:translateY(-2px)}
+.floating-cta svg{width:18px;height:18px;fill:#fff;flex-shrink:0}
+
+footer{background:var(--dark);color:rgba(255,255,255,.3);text-align:center;padding:18px 20px;font-size:12px}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease}
+.reveal.visible{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker-inner"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <span class="logo"><span>AI</span> Explorer</span>
+  <div class="nav-pill">🎓 Free Demo Class</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="free-tag"><div class="free-tag-dot"></div> 100% Free · No Commitment</div>
+  <h1>See AI Come<br><em>Alive</em> in One Class.</h1>
+  <p class="hero-sub">Book your child's free 45-minute AI demo class. They'll build something real before the session ends. No devices needed.</p>
+
+  <!-- COUNTDOWN -->
+  <div class="countdown-wrap">
+    <div class="cd-label">⏰ Next free demo session starts in</div>
+    <div class="cd-units">
+      <div class="cd-unit"><div class="cd-num" id="cd-d">03</div><div class="cd-lbl">Days</div></div>
+      <div class="cd-colon">:</div>
+      <div class="cd-unit"><div class="cd-num" id="cd-h">14</div><div class="cd-lbl">Hours</div></div>
+      <div class="cd-colon">:</div>
+      <div class="cd-unit"><div class="cd-num" id="cd-m">22</div><div class="cd-lbl">Mins</div></div>
+      <div class="cd-colon">:</div>
+      <div class="cd-unit"><div class="cd-num" id="cd-s">45</div><div class="cd-lbl">Secs</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- DEMO DETAILS CARD -->
+<div class="demo-card reveal">
+  <div class="demo-card-title">Demo Class Details</div>
+  <div class="demo-detail-row">
+    <div class="dd-icon">📅</div>
+    <div class="dd-body"><h4>Date & Time</h4><p>On Request — Book via WhatsApp · 10:00 AM – 10:45 AM IST</p></div>
+  </div>
+  <div class="demo-detail-row">
+    <div class="dd-icon">📍</div>
+    <div class="dd-body"><h4>Location</h4><p>Online (Google Meet) + In-person at Hisar, Haryana. WhatsApp us for the join link after registration.</p></div>
+  </div>
+  <div class="demo-detail-row">
+    <div class="dd-icon">👥</div>
+    <div class="dd-body"><h4>Group Size</h4><p>Maximum 15 students per demo — so every child gets personal attention</p></div>
+  </div>
+  <div class="demo-detail-row">
+    <div class="dd-icon">🎓</div>
+    <div class="dd-body"><h4>Who Can Join</h4><p>Any student from Grade 1 to Grade 12. Absolute beginners welcome — no experience needed at all.</p></div>
+  </div>
+  <div class="demo-detail-row">
+    <div class="dd-icon">💻</div>
+    <div class="dd-body"><h4>What to Bring</h4><p>Nothing! A smartphone is enough. Most activities are hands-on and unplugged.</p></div>
+  </div>
+  <div class="demo-detail-row">
+    <div class="dd-icon">💰</div>
+    <div class="dd-body"><h4>Cost</h4><p><strong style="color:var(--green)">Completely free.</strong> No payment, no credit card, no upsell during the class. Just come and learn.</p></div>
+  </div>
+</div>
+
+<!-- WHAT HAPPENS -->
+<div class="section">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">The Session Plan</span></div>
+  <h2>45 Minutes.<br><em>Real AI.</em> Built by kids.</h2>
+  <p class="sec-sub">Here's exactly what happens from the moment your child joins to the moment they leave with their project.</p>
+
+  <div class="demo-timeline reveal">
+    <div class="dtl-item">
+      <div class="dtl-dot">1</div>
+      <div class="dtl-time">0–5 min</div>
+      <div class="dtl-title">The Hook — "AI Is Already in Your Pocket"</div>
+      <div class="dtl-desc">We open by asking students: "Has anyone talked to Siri or Alexa today?" Then we reveal what's actually happening inside — and students realise AI is everywhere. Curiosity unlocked.</div>
+    </div>
+    <div class="dtl-item">
+      <div class="dtl-dot">2</div>
+      <div class="dtl-time">5–15 min</div>
+      <div class="dtl-title">The Unplugged Game — "Be the AI"</div>
+      <div class="dtl-desc">One student plays the "AI". Others show them objects (a cup, a shoe, a book). The "AI" must learn a secret sorting rule. Students discover pattern recognition without touching a device.</div>
+    </div>
+    <div class="dtl-item">
+      <div class="dtl-dot">3</div>
+      <div class="dtl-time">15–35 min</div>
+      <div class="dtl-title">Build It — Train Your Own Image Classifier</div>
+      <div class="dtl-desc">On any device, students open Google Teachable Machine. They collect 10 images of two objects (apple vs banana, thumbs up vs thumbs down), train a classifier, and test it live on their camera. The room always erupts when their AI works for the first time.</div>
+    </div>
+    <div class="dtl-item">
+      <div class="dtl-dot">4</div>
+      <div class="dtl-time">35–42 min</div>
+      <div class="dtl-title">Break It — What Makes AI Wrong?</div>
+      <div class="dtl-desc">Students deliberately try to fool their classifier — same object, different angle, different lighting. They observe failures and ask: "Why did it get that wrong?" This is AI ethics in real time.</div>
+    </div>
+    <div class="dtl-item">
+      <div class="dtl-dot">5</div>
+      <div class="dtl-time">42–45 min</div>
+      <div class="dtl-title">Q&A + What's Next</div>
+      <div class="dtl-desc">Students share what they built. Parents can ask questions. We briefly share what the full 6-week program looks like — no pressure, no hard sell. Everyone leaves with their classifier saved.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHO IS IT FOR -->
+<div class="section section-alt">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">Who Should Come</span></div>
+  <h2>Is This Right<br>for <em>Your Child?</em></h2>
+  <p class="sec-sub">Short answer: yes. Longer answer — here's who thrives in our demo class.</p>
+
+  <div class="who-grid reveal">
+    <div class="who-card">
+      <span class="who-emoji">🔍</span>
+      <h4>The Curious Kid</h4>
+      <p>Always asking "how does that work?" — they'll finally get answers to questions about phones, apps, and voice assistants.</p>
+    </div>
+    <div class="who-card">
+      <span class="who-emoji">🎮</span>
+      <h4>The Gamer / Tech Fan</h4>
+      <p>Loves technology but never gone beyond using it. This class shows them how to build it — not just play with it.</p>
+    </div>
+    <div class="who-card">
+      <span class="who-emoji">📚</span>
+      <h4>The Academic Student</h4>
+      <p>Focused on studies and scores. AI literacy is now part of NEP 2020 and CBSE direction — this adds real academic value.</p>
+    </div>
+    <div class="who-card">
+      <span class="who-emoji">🎨</span>
+      <h4>The Creative Kid</h4>
+      <p>Not "techy" at all — but loves making things. Our program has art, storytelling, and ethical debate built in.</p>
+    </div>
+    <div class="who-card">
+      <span class="who-emoji">😰</span>
+      <h4>"My Child Is Shy"</h4>
+      <p>No cold-calling, no pressure. Students work in pairs. The unplugged games are naturally inclusive. Every child participates.</p>
+    </div>
+    <div class="who-card">
+      <span class="who-emoji">🌱</span>
+      <h4>Absolute Beginners</h4>
+      <p>Zero coding, zero AI background needed. Grade 1 students have attended our demo and built their first classifier. Truly anyone can join.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT YOU GET -->
+<div class="section">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">What You Take Home</span></div>
+  <h2>Free. But not<br><em>empty-handed.</em></h2>
+  <p class="sec-sub">Every student and parent leaves the demo class with real value — whether they enroll in the full program or not.</p>
+
+  <div class="perks-list reveal">
+    <div class="perk">
+      <div class="perk-icon">🤖</div>
+      <div>
+        <h4>Their First AI Model — To Keep</h4>
+        <p>The image classifier your child builds is saved to their device or Google account. They can show it to friends, family, teachers.</p>
+        <span class="perk-tag pt-free">Free · Keep forever</span>
+      </div>
+    </div>
+    <div class="perk">
+      <div class="perk-icon">📋</div>
+      <div>
+        <h4>Parent Resource Pack</h4>
+        <p>A WhatsApp-friendly PDF with 5 ways to continue AI learning at home this week — all free, all fun.</p>
+        <span class="perk-tag pt-free">Free · Sent on WhatsApp</span>
+      </div>
+    </div>
+    <div class="perk">
+      <div class="perk-icon">🎓</div>
+      <div>
+        <h4>Demo Attendance Certificate</h4>
+        <p>A personalised digital certificate for every student who attends — valid for school portfolios and competitions.</p>
+        <span class="perk-tag pt-free">Free · Printable PDF</span>
+      </div>
+    </div>
+    <div class="perk">
+      <div class="perk-icon">💰</div>
+      <div>
+        <h4>Early Enrollment Discount</h4>
+        <p>Demo attendees get first access to the next batch AND an exclusive discount on the full 6-week program.</p>
+        <span class="perk-tag pt-bonus">Bonus · Limited offer</span>
+      </div>
+    </div>
+    <div class="perk">
+      <div class="perk-icon">💬</div>
+      <div>
+        <h4>Direct WhatsApp Access to the Educator</h4>
+        <p>After the demo, you can message us any questions about the program, curriculum, or your child's specific needs — personally, not a bot.</p>
+        <span class="perk-tag pt-bonus">Bonus · Personal access</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="section section-alt">
+  <div class="eyebrow"><div class="ey-line"></div><span class="ey-txt">What Parents Say</span></div>
+  <h2>After the<br><em>Demo Class.</em></h2>
+
+  <div class="testi-stack reveal">
+    <div class="testi">
+      <p class="testi-text">"I came expecting a boring tech lecture. Instead my son built an AI that could tell apples from oranges using just his phone camera. In 20 minutes. He hasn't stopped talking about it."</p>
+      <div class="testi-author">
+        <div class="testi-av av1">RS</div>
+        <div><div class="testi-name">Rajan Sharma</div><div class="testi-role">Parent of Grade 6 student · Hisar</div></div>
+      </div>
+    </div>
+    <div class="testi">
+      <p class="testi-text">"My daughter is usually very shy in group settings. Within 10 minutes of the demo she was the one explaining to other kids how the 'Be the AI' game worked. I was shocked."</p>
+      <div class="testi-author">
+        <div class="testi-av av2">PM</div>
+        <div><div class="testi-name">Priya Mehra</div><div class="testi-role">Parent of Grade 4 student · Hisar</div></div>
+      </div>
+    </div>
+    <div class="testi">
+      <p class="testi-text">"We attended 'just to see'. We enrolled in the full program that same evening. The demo was better than any paid class my son has attended. The educator is exceptional."</p>
+      <div class="testi-author">
+        <div class="testi-av av3">AK</div>
+        <div><div class="testi-name">Amit Kumar</div><div class="testi-role">Parent of Grade 9 student · Fatehabad</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER -->
+<div class="register-section" id="register">
+  <h2>Reserve Your Child's<br><em>Free Seat Now.</em></h2>
+  <p>Only 15 seats per demo session. Fill in below and we'll confirm your spot on WhatsApp within 5 minutes.</p>
+
+  <div class="reg-form">
+    <div class="reg-row">
+      <div class="reg-field">
+        <label>Child's Name *</label>
+        <input type="text" id="r-child" placeholder="e.g. Aarav">
+      </div>
+      <div class="reg-field">
+        <label>Grade *</label>
+        <select id="r-grade">
+          <option value="">Select</option>
+          <option>Grade 1–2</option><option>Grade 3–5</option>
+          <option>Grade 6–8</option><option>Grade 9–12</option>
+        </select>
+      </div>
+    </div>
+    <div class="reg-field">
+      <label>Parent / Guardian Name *</label>
+      <input type="text" id="r-parent" placeholder="Your full name">
+    </div>
+    <div class="reg-field">
+      <label>WhatsApp Number *</label>
+      <input type="tel" id="r-phone" placeholder="+91 98765 43210">
+    </div>
+    <div class="reg-row">
+      <div class="reg-field">
+        <label>City *</label>
+        <input type="text" id="r-city" placeholder="e.g. Hisar">
+      </div>
+      <div class="reg-field">
+        <label>Prefer</label>
+        <select id="r-mode">
+          <option value="Online">Online (Google Meet)</option>
+          <option value="In-person">In-person</option>
+          <option value="Either works">Either works</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button class="wa-register" onclick="register()">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.504 3.935 1.385 5.619L0 24l6.545-1.361A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.805 9.805 0 01-5.032-1.386l-.36-.214-3.733.979.996-3.648-.235-.374A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+    Reserve Free Seat on WhatsApp
+  </button>
+
+  <div class="trust-row">
+    <div class="trust-item">✅ No payment</div>
+    <div class="trust-item">✅ No spam</div>
+    <div class="trust-item">✅ Reply in 5 min</div>
+    <div class="trust-item">✅ Cancel anytime</div>
+  </div>
+</div>
+
+<footer><p>AI Explorer · Free Demo Class · K–12 AI Education Program · Haryana, India</p></footer>
+
+<!-- FLOATING CTA -->
+<div class="floating-cta" id="floating-cta">
+  <a href="#register">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.504 3.935 1.385 5.619L0 24l6.545-1.361A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.805 9.805 0 01-5.032-1.386l-.36-.214-3.733.979.996-3.648-.235-.374A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+    🎓 Reserve Free Demo Seat
+  </a>
+</div>
+
+<script>
+// TICKER
+const msgs = [
+  '🎓 Free Demo Class — No cost, no commitment',
+  '🤖 Students build real AI in 45 minutes',
+  '📍 Online & In-person available',
+  '✅ Grades K–12 welcome — absolute beginners',
+  '🏆 UNESCO & AI4K12 aligned curriculum',
+  '⏰ Only 15 seats per session — book now',
+];
+const ti = document.getElementById('ticker-inner');
+[...msgs,...msgs].forEach(m=>{
+  const d=document.createElement('div');
+  d.className='ticker-item';
+  d.innerHTML=`<div class="ticker-dot"></div>${m}`;
+  ti.appendChild(d);
+});
+
+// COUNTDOWN — set demo date 3 days from now
+const demoDate = new Date();
+demoDate.setDate(demoDate.getDate()+3);
+demoDate.setHours(10,0,0,0);
+function updateCountdown(){
+  const now=new Date();
+  const diff=demoDate-now;
+  if(diff<=0){document.querySelector('.countdown-wrap').innerHTML='<div style="color:var(--orange2);font-weight:700;font-size:16px">🔴 Demo is LIVE now! Join immediately.</div>';return;}
+  const d=Math.floor(diff/86400000);
+  const h=Math.floor((diff%86400000)/3600000);
+  const m=Math.floor((diff%3600000)/60000);
+  const s=Math.floor((diff%60000)/1000);
+  document.getElementById('cd-d').textContent=String(d).padStart(2,'0');
+  document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
+}
+setInterval(updateCountdown,1000);
+updateCountdown();
+
+// FLOATING CTA
+window.addEventListener('scroll',()=>{
+  const fc=document.getElementById('floating-cta');
+  fc.style.display=window.scrollY>400?'block':'none';
+});
+
+// REGISTER
+function register(){
+  const child=document.getElementById('r-child').value.trim();
+  const grade=document.getElementById('r-grade').value;
+  const parent=document.getElementById('r-parent').value.trim();
+  const phone=document.getElementById('r-phone').value.trim();
+  const city=document.getElementById('r-city').value.trim();
+  const mode=document.getElementById('r-mode').value;
+  if(!child||!grade||!parent||!phone||!city){alert('Please fill in all required fields.');return;}
+  const msg=`Hi! I'd like to reserve a FREE demo class seat for my child. 🎓
+
+👦 Child: ${child} (${grade})
+👤 Parent: ${parent}
+📱 WhatsApp: ${phone}
+📍 City: ${city}
+💻 Preference: ${mode}
+
+Please confirm my free seat! Thank you 🙏`;
+  window.open(`https://wa.me/919996373130?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+// SCROLL REVEAL
+const observer=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
